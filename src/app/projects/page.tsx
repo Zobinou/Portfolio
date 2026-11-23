@@ -37,8 +37,9 @@ export default function ProjectsPage() {
                   <Image
                     src={project.image}
                     alt={project.titre}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <Badge className="absolute top-3 left-3 z-10">{project.numero}</Badge>
                 </div>
@@ -49,7 +50,9 @@ export default function ProjectsPage() {
                   </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary">{tech}</Badge>
+                      <Badge key={tech} variant="secondary">
+                        {tech}
+                      </Badge>
                     ))}
                   </div>
                   <span className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all group-hover:gap-3">
@@ -62,8 +65,12 @@ export default function ProjectsPage() {
         </div>
 
         <div className="mt-12 flex justify-center">
-          <Button variant="outline">
-            <Link href="/">Retour à l&apos;accueil</Link>
+          <Button
+            render={<Link href="/" />}
+            variant="outline"
+            nativeButton={false}
+          >
+            Retour à l&apos;accueil
           </Button>
         </div>
       </div>

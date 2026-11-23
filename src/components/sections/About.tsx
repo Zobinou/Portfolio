@@ -15,7 +15,7 @@ const stats = [
 
 export default function About() {
   return (
-    <section id="about" className="scroll-mt-20 bg-bg-secondary py-20 md:py-28">
+    <section className="scroll-mt-20 py-20 md:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2 md:gap-16 lg:px-8">
         <FadeIn direction="right">
           <div className="text-center md:text-left">

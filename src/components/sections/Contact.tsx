@@ -1,12 +1,12 @@
 'use client'
 
-import { Mail, Phone, Quote } from 'lucide-react'
+import { Mail, Phone, Quote, User } from 'lucide-react'
 import { FaGithub, FaLinkedin } from 'react-icons/fa'
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { testimonialsData } from '@/data/testimonials'
 import FadeIn from '@/components/animations/FadeIn'
+import ContactForm from './ContactForm'
 
 const contactLinks = [
   {
@@ -33,8 +33,9 @@ const contactLinks = [
 
 export default function Contact() {
   return (
-    <section id="contact" className="scroll-mt-20 bg-bg-secondary py-20 md:py-28">
+    <section className="scroll-mt-20 py-20 md:py-28">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-start gap-12 px-6 md:grid-cols-2 md:gap-16 lg:px-8">
+
         <FadeIn direction="right">
           <div className="text-center md:text-left">
             <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
@@ -49,15 +50,7 @@ export default function Contact() {
               d&apos;échanger avec vous !
             </p>
 
-            <Button
-              size="lg"
-              className="mt-8"
-              onClick={() => {
-                window.location.href = 'mailto:lantosoanir@gmail.com'
-              }}
-            >
-              Me contacter
-            </Button>
+            <ContactForm />
 
             <h3 className="mt-12 text-lg font-semibold text-text-primary">Follow Me</h3>
             <ul className="mt-5 space-y-4">
@@ -83,9 +76,9 @@ export default function Contact() {
         <div className="space-y-8">
           {testimonialsData.map((testimonial, i) => (
             <FadeIn key={i} delay={i * 0.1} direction="left">
-              <Card className="relative">
-                <span className="absolute -top-5 left-8 flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-primary to-accent-blue text-white shadow-lg shadow-primary/30">
-                  <Quote className="h-5 w-5" />
+              <Card className="relative mt-6 overflow-visible">
+                <span className="absolute -top-6 left-8 z-10 flex h-12 w-12 items-center justify-center rounded-full bg-linear-to-br from-primary to-accent-blue text-white shadow-lg shadow-primary/30">
+                  <Quote className="h-6 w-6 fill-current" strokeWidth={2.5} />
                 </span>
                 <CardContent className="pt-10">
                   <blockquote className="text-sm italic leading-relaxed text-text-secondary sm:text-base">
@@ -93,14 +86,20 @@ export default function Contact() {
                   </blockquote>
 
                   <figcaption className="mt-6 flex items-center gap-4">
-                    <Image
-                      src={testimonial.photo}
-                      alt={testimonial.name}
-                      width={48}
-                      height={48}
-                      unoptimized
-                      className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/40"
-                    />
+                    {testimonial.photo ? (
+                      <Image
+                        src={testimonial.photo}
+                        alt={testimonial.name}
+                        width={48}
+                        height={48}
+                        unoptimized
+                        className="h-12 w-12 rounded-full object-cover ring-2 ring-primary/40"
+                      />
+                    ) : (
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary ring-2 ring-primary/40">
+                        <User className="h-6 w-6" />
+                      </div>
+                    )}
                     <div>
                       <p className="font-semibold text-text-primary">{testimonial.name}</p>
                       <p className="text-xs text-text-secondary">{testimonial.poste}</p>

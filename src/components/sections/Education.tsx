@@ -6,7 +6,7 @@ import FadeIn from '@/components/animations/FadeIn'
 
 export default function Education() {
   return (
-    <section id="education" className="scroll-mt-20 bg-bg-secondary py-20 md:py-28">
+    <section className="scroll-mt-20 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center">
           <span className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">

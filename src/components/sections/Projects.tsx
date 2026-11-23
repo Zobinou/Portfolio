@@ -11,7 +11,7 @@ import { StaggerGroup, StaggerItem } from '@/components/animations/StaggerGroup'
 
 export default function Projects() {
   return (
-    <section id="projects" className="scroll-mt-20 bg-bg-primary py-20 md:py-28">
+    <section className="scroll-mt-20 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <FadeIn>
           <div className="text-center">

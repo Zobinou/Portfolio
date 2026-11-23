@@ -56,57 +56,35 @@ export default function BabylonScene() {
         Vector3.Zero(),
         scene
       )
-      camera.attachControl(canvas, true)
-      camera.lowerRadiusLimit = 6
-      camera.upperRadiusLimit = 14
-      camera.wheelPrecision = 80
+      scene.activeCamera = camera
 
       new HemisphericLight('hemi', new Vector3(0, 1, 0), scene)
 
       const pointLight = new PointLight('point', new Vector3(5, 5, 5), scene)
       pointLight.diffuse = Color3.FromHexString('#14b8a6')
 
-      // Matériau teal
       const tealMat = new StandardMaterial('tealMat', scene)
       tealMat.diffuseColor = Color3.FromHexString('#14b8a6')
       tealMat.emissiveColor = Color3.FromHexString('#0f766e').scale(0.3)
+      tealMat.alpha = 0.6
 
       const blueMat = new StandardMaterial('blueMat', scene)
       blueMat.diffuseColor = Color3.FromHexString('#0ea5e9')
       blueMat.emissiveColor = Color3.FromHexString('#0369a1').scale(0.3)
+      blueMat.alpha = 0.6
 
-      // Torus principal
-      const torus = MeshBuilder.CreateTorus(
-        'torus',
-        { diameter: 3.2, thickness: 0.35, tessellation: 64 },
-        scene
-      )
+      const torus = MeshBuilder.CreateTorus('torus', { diameter: 3.2, thickness: 0.35, tessellation: 64 }, scene)
       torus.material = tealMat
 
-      // Sphère orbitale
-      const sphere = MeshBuilder.CreateSphere(
-        'sphere',
-        { diameter: 0.9, segments: 32 },
-        scene
-      )
+      const sphere = MeshBuilder.CreateSphere('sphere', { diameter: 0.9, segments: 32 }, scene)
       sphere.material = blueMat
 
-      // Anneau secondaire
-      const ring = MeshBuilder.CreateTorus(
-        'ring',
-        { diameter: 5, thickness: 0.08, tessellation: 96 },
-        scene
-      )
+      const ring = MeshBuilder.CreateTorus('ring', { diameter: 5, thickness: 0.08, tessellation: 96 }, scene)
       ring.material = tealMat
       ring.rotation.x = Math.PI / 2.5
 
-      // Petites sphères satellites
       const satellites = Array.from({ length: 4 }).map((_, i) => {
-        const s = MeshBuilder.CreateSphere(
-          `sat-${i}`,
-          { diameter: 0.35, segments: 16 },
-          scene
-        )
+        const s = MeshBuilder.CreateSphere(`sat-${i}`, { diameter: 0.35, segments: 16 }, scene)
         s.material = i % 2 === 0 ? tealMat : blueMat
         return s
       })
@@ -117,7 +95,6 @@ export default function BabylonScene() {
         torus.rotation.x = angle
         torus.rotation.y = angle * 0.7
         ring.rotation.z = -angle * 0.5
-
         sphere.position.x = Math.cos(angle) * 2.6
         sphere.position.z = Math.sin(angle) * 2.6
         sphere.position.y = Math.sin(angle * 1.5) * 0.6
@@ -137,15 +114,12 @@ export default function BabylonScene() {
       resizeHandlerRef.current = onResize
     }
 
-    if ('requestIdleCallback' in window) {
-      ;(
-        window as Window & {
-          requestIdleCallback: (
-            callback: () => void,
-            options: { timeout: number }
-          ) => number
-        }
-      ).requestIdleCallback(() => initScene(), { timeout: 2000 })
+    const idleWindow = window as typeof window & {
+      requestIdleCallback?: (callback: () => void, options?: { timeout: number }) => number
+    }
+
+    if (idleWindow.requestIdleCallback) {
+      idleWindow.requestIdleCallback(() => initScene(), { timeout: 2000 })
     } else {
       setTimeout(initScene, 500)
     }
@@ -163,12 +137,5 @@ export default function BabylonScene() {
     }
   }, [])
 
-  return (
-    <div className="relative h-80 w-full overflow-hidden rounded-2xl border border-border bg-bg-card md:h-105">
-      <canvas ref={canvasRef} className="h-full w-full outline-none" />
-      <span className="pointer-events-none absolute bottom-3 right-3 rounded-full bg-bg-primary/80 px-3 py-1 text-[10px] font-medium uppercase tracking-wider text-text-muted backdrop-blur">
-        Interactive · 3D
-      </span>
-    </div>
-  )
+  return <canvas ref={canvasRef} className="h-full w-full outline-none" />
 }

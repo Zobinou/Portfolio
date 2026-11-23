@@ -39,7 +39,7 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
 
 export default function Skills() {
   return (
-    <section id="skills" className="scroll-mt-20 bg-bg-primary py-20 md:py-28">
+    <section className="scroll-mt-20 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center">
           <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">

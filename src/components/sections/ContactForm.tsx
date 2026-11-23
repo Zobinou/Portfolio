@@ -38,7 +38,6 @@ export default function ContactForm() {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
-            {/* Honeypot caché */}
             <input
                 type="text"
                 {...register('company')}

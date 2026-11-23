@@ -6,7 +6,7 @@ import FadeIn from '@/components/animations/FadeIn'
 
 export default function Qualities() {
   return (
-    <section id="qualities" className="scroll-mt-20 bg-bg-secondary py-16 md:py-24">
+    <section className="scroll-mt-20 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
         <FadeIn>
           <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-primary sm:text-xs">
