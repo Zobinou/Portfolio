@@ -37,15 +37,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="min-h-screen antialiased">
         <ThemeProvider>
           <LenisProvider>
-            {/* Scène 3D en fond fixe */}
             <div className="fixed inset-0 -z-10 pointer-events-none opacity-60 dark:opacity-40">
               <BabylonScene />
             </div>
 
-            {/* Overlay pour la lisibilité (optionnel, adapte selon tes goûts) */}
             <div className="fixed inset-0 -z-10 bg-bg-primary/50 backdrop-blur-[2px] pointer-events-none" />
 
-            {/* Contenu du site */}
             <div className="relative z-10 flex min-h-screen flex-col">
               <Header />
               <main className="flex-1">{children}</main>

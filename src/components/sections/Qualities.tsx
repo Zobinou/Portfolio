@@ -1,10 +1,12 @@
 'use client'
 
-import { qualities } from '@/data/qualities'
+import { qualities as staticQualities } from '@/data/qualities'
 import { StaggerGroup, StaggerItem } from '@/components/animations/StaggerGroup'
 import FadeIn from '@/components/animations/FadeIn'
 
-export default function Qualities() {
+export default function Qualities({ qualities }: { qualities?: string[] }) {
+  const data = qualities?.length ? qualities : staticQualities
+
   return (
     <section className="scroll-mt-20 py-16 md:py-24">
       <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
@@ -18,10 +20,10 @@ export default function Qualities() {
         </FadeIn>
 
         <StaggerGroup className="mt-10 flex flex-wrap justify-center gap-3">
-          {qualities.map((quality) => (
-            <StaggerItem key={quality}>
+          {data.map((q) => (
+            <StaggerItem key={q}>
               <span className="inline-block cursor-default rounded-full border border-primary/30 bg-primary/10 px-6 py-2.5 text-sm font-medium text-primary transition-all hover:bg-linear-to-r hover:from-primary hover:to-accent-blue hover:text-white">
-                {quality}
+                {q}
               </span>
             </StaggerItem>
           ))}

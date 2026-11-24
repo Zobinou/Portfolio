@@ -1,28 +1,29 @@
 'use client'
 
-import { useRef } from 'react'
+import { createElement, useRef } from 'react'
 import { motion, useInView } from 'framer-motion'
-import { skillsData, type Skill } from '@/data/skills'
+import { skillsData } from '@/data/skills'
+import { getIcon, getIconName } from '@/lib/icon-map'
 import FadeIn from '@/components/animations/FadeIn'
 
-function SkillCard({ skill, index }: { skill: Skill; index: number }) {
+export interface SkillItem {
+  name: string
+  percent: number
+  icon: string
+}
+
+function SkillCard({ skill, index }: { skill: SkillItem; index: number }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, margin: '-80px' })
-  const Icon = skill.icon
-
   return (
     <FadeIn delay={index * 0.05}>
-      <div
-        ref={ref}
-        className="rounded-2xl border border-border bg-bg-card p-6 transition-colors hover:border-primary/40"
-      >
+      <div ref={ref} className="rounded-2xl border border-border bg-bg-card p-6 transition-colors hover:border-primary/40">
         <div className="mb-5 flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-primary to-accent-blue text-xl text-white">
-            <Icon className="h-6 w-6" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-linear-to-br from-primary to-accent-blue text-white">
+            {createElement(getIcon(skill.icon), { className: 'h-6 w-6' })}
           </div>
           <h3 className="font-semibold text-text-primary">{skill.name}</h3>
         </div>
-
         <div className="h-2.5 w-full overflow-hidden rounded-full bg-text-secondary/10">
           <motion.div
             className="h-full rounded-full bg-linear-to-r from-primary to-accent-blue"
@@ -37,7 +38,16 @@ function SkillCard({ skill, index }: { skill: Skill; index: number }) {
   )
 }
 
-export default function Skills() {
+export default function Skills({ skills }: { skills?: SkillItem[] }) {
+  const data: SkillItem[] =
+    skills?.length
+      ? skills
+      : skillsData.map((s) => ({
+          name: s.name,
+          percent: s.percent,
+          icon: getIconName(s.icon),
+        }))
+
   return (
     <section className="scroll-mt-20 py-20 md:py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
@@ -51,7 +61,7 @@ export default function Skills() {
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-          {skillsData.map((skill, i) => (
+          {data.map((skill, i) => (
             <SkillCard key={skill.name} skill={skill} index={i} />
           ))}
         </div>
