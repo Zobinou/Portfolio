@@ -11,10 +11,7 @@ import { motion, AnimatePresence, type Variants } from 'framer-motion'
 const navLinks = [
   { label: 'Accueil', href: '/' },
   { label: 'À propos', href: '/about' },
-  { label: 'Education', href: '/education' },
   { label: 'Compétences', href: '/skills' },
-  { label: 'Qualités', href: '/qualities' },
-  { label: 'Expérience', href: '/experience' },
   { label: 'Projets', href: '/projects' },
   { label: 'Contact', href: '/contact' },
 ]
