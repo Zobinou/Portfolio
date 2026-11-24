@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 
 const profilePhoto = '/assets/images/profile/photo.jpg'
-const cvFile = '/assets/documents/CV-Niritsiafoy-Lantosoa.pdf' // Modifie le chemin si besoin
+const cvFile = '/assets/documents/CV-Niritsiafoy-Lantosoa.pdf'
 
 export default function Hero() {
   const router = useRouter()
@@ -28,7 +28,7 @@ export default function Hero() {
           <h1 className="font-display mt-6 text-4xl font-extrabold leading-[1.1] text-text-primary sm:text-5xl lg:text-6xl">
             Hi, I&apos;m{' '}
             <span className="bg-linear-to-r from-primary to-accent-blue bg-clip-text text-transparent">
-              Niritsiafoy
+              Zo Lantosoa
             </span>
           </h1>
 
