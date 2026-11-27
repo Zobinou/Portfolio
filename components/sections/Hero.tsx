@@ -21,6 +21,23 @@ export default function Hero() {
   const [typedText, setTypedText] = useState("");
 
   useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (typedText.length >= FULL_HEADING.length) {
+      timeout = setTimeout(() => {
+        setTypedText("");
+      }, 5000);
+    } else {
+      timeout = setTimeout(() => {
+        setTypedText(FULL_HEADING.slice(0, typedText.length + 1));
+      }, 55);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [typedText]);
+
+  /* Si on a besoin que ceci doit revenir
+  useEffect(() => {
     if (typedText.length >= FULL_HEADING.length) return;
 
     const timeout: ReturnType<typeof setTimeout> = setTimeout(() => {
@@ -28,23 +45,7 @@ export default function Hero() {
     }, 55);
 
     return () => clearTimeout(timeout);
-  }, [typedText]);
-
-  /*
-  Si on a besoin de ceci
-  useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (typedText.length >= FULL_HEADING.length) {
-      timeout = setTimeout(() => {
-        setTypedText("");
-      }, 3000);
-    } else {
-      timeout = setTimeout(() => {
-        setTypedText(FULL_HEADING.slice(0, typedText.length + 1));
-      }, 55);
-    }
-  */
+  }, [typedText]);*/
 
   const greetingText = typedText.slice(0, GREETING.length);
   const nameText = typedText.slice(GREETING.length);
