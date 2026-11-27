@@ -1,4 +1,3 @@
-
 import type { Metadata, Viewport } from "next";
 import { connection } from "next/server";
 import { Inter, Poppins } from "next/font/google";
