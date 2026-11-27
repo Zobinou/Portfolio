@@ -176,6 +176,7 @@ exports.Prisma.ProjectScalarFieldEnum = {
   image: 'image',
   lien: 'lien',
   technologies: 'technologies',
+  drivePhotos: 'drivePhotos',
   featured: 'featured',
   order: 'order',
   createdAt: 'createdAt',

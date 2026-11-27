@@ -6314,6 +6314,7 @@ export namespace Prisma {
     image: number
     lien: number
     technologies: number
+    drivePhotos: number
     featured: number
     order: number
     createdAt: number
@@ -6370,6 +6371,7 @@ export namespace Prisma {
     image?: true
     lien?: true
     technologies?: true
+    drivePhotos?: true
     featured?: true
     order?: true
     createdAt?: true
@@ -6473,6 +6475,7 @@ export namespace Prisma {
     image: string
     lien: string
     technologies: string[]
+    drivePhotos: string[]
     featured: boolean
     order: number
     createdAt: Date
@@ -6508,6 +6511,7 @@ export namespace Prisma {
     image?: boolean
     lien?: boolean
     technologies?: boolean
+    drivePhotos?: boolean
     featured?: boolean
     order?: boolean
     createdAt?: boolean
@@ -6524,6 +6528,7 @@ export namespace Prisma {
     image?: boolean
     lien?: boolean
     technologies?: boolean
+    drivePhotos?: boolean
     featured?: boolean
     order?: boolean
     createdAt?: boolean
@@ -6540,6 +6545,7 @@ export namespace Prisma {
     image?: boolean
     lien?: boolean
     technologies?: boolean
+    drivePhotos?: boolean
     featured?: boolean
     order?: boolean
     createdAt?: boolean
@@ -6556,13 +6562,14 @@ export namespace Prisma {
     image?: boolean
     lien?: boolean
     technologies?: boolean
+    drivePhotos?: boolean
     featured?: boolean
     order?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "numero" | "titre" | "description" | "descriptionLongue" | "image" | "lien" | "technologies" | "featured" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "numero" | "titre" | "description" | "descriptionLongue" | "image" | "lien" | "technologies" | "drivePhotos" | "featured" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
@@ -6577,6 +6584,7 @@ export namespace Prisma {
       image: string
       lien: string
       technologies: string[]
+      drivePhotos: string[]
       featured: boolean
       order: number
       createdAt: Date
@@ -7013,6 +7021,7 @@ export namespace Prisma {
     readonly image: FieldRef<"Project", 'String'>
     readonly lien: FieldRef<"Project", 'String'>
     readonly technologies: FieldRef<"Project", 'String[]'>
+    readonly drivePhotos: FieldRef<"Project", 'String[]'>
     readonly featured: FieldRef<"Project", 'Boolean'>
     readonly order: FieldRef<"Project", 'Int'>
     readonly createdAt: FieldRef<"Project", 'DateTime'>
@@ -13696,6 +13705,7 @@ export namespace Prisma {
     image: 'image',
     lien: 'lien',
     technologies: 'technologies',
+    drivePhotos: 'drivePhotos',
     featured: 'featured',
     order: 'order',
     createdAt: 'createdAt',
@@ -14173,6 +14183,7 @@ export namespace Prisma {
     image?: StringFilter<"Project"> | string
     lien?: StringFilter<"Project"> | string
     technologies?: StringNullableListFilter<"Project">
+    drivePhotos?: StringNullableListFilter<"Project">
     featured?: BoolFilter<"Project"> | boolean
     order?: IntFilter<"Project"> | number
     createdAt?: DateTimeFilter<"Project"> | Date | string
@@ -14189,6 +14200,7 @@ export namespace Prisma {
     image?: SortOrder
     lien?: SortOrder
     technologies?: SortOrder
+    drivePhotos?: SortOrder
     featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -14208,6 +14220,7 @@ export namespace Prisma {
     image?: StringFilter<"Project"> | string
     lien?: StringFilter<"Project"> | string
     technologies?: StringNullableListFilter<"Project">
+    drivePhotos?: StringNullableListFilter<"Project">
     featured?: BoolFilter<"Project"> | boolean
     order?: IntFilter<"Project"> | number
     createdAt?: DateTimeFilter<"Project"> | Date | string
@@ -14224,6 +14237,7 @@ export namespace Prisma {
     image?: SortOrder
     lien?: SortOrder
     technologies?: SortOrder
+    drivePhotos?: SortOrder
     featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -14248,6 +14262,7 @@ export namespace Prisma {
     image?: StringWithAggregatesFilter<"Project"> | string
     lien?: StringWithAggregatesFilter<"Project"> | string
     technologies?: StringNullableListFilter<"Project">
+    drivePhotos?: StringNullableListFilter<"Project">
     featured?: BoolWithAggregatesFilter<"Project"> | boolean
     order?: IntWithAggregatesFilter<"Project"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Project"> | Date | string
@@ -14934,6 +14949,7 @@ export namespace Prisma {
     image: string
     lien: string
     technologies?: ProjectCreatetechnologiesInput | string[]
+    drivePhotos?: ProjectCreatedrivePhotosInput | string[]
     featured?: boolean
     order?: number
     createdAt?: Date | string
@@ -14950,6 +14966,7 @@ export namespace Prisma {
     image: string
     lien: string
     technologies?: ProjectCreatetechnologiesInput | string[]
+    drivePhotos?: ProjectCreatedrivePhotosInput | string[]
     featured?: boolean
     order?: number
     createdAt?: Date | string
@@ -14966,6 +14983,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
     technologies?: ProjectUpdatetechnologiesInput | string[]
+    drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14982,6 +15000,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
     technologies?: ProjectUpdatetechnologiesInput | string[]
+    drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -14998,6 +15017,7 @@ export namespace Prisma {
     image: string
     lien: string
     technologies?: ProjectCreatetechnologiesInput | string[]
+    drivePhotos?: ProjectCreatedrivePhotosInput | string[]
     featured?: boolean
     order?: number
     createdAt?: Date | string
@@ -15014,6 +15034,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
     technologies?: ProjectUpdatetechnologiesInput | string[]
+    drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15030,6 +15051,7 @@ export namespace Prisma {
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
     technologies?: ProjectUpdatetechnologiesInput | string[]
+    drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
     order?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15726,6 +15748,7 @@ export namespace Prisma {
     image?: SortOrder
     lien?: SortOrder
     technologies?: SortOrder
+    drivePhotos?: SortOrder
     featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -16120,7 +16143,16 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type ProjectCreatedrivePhotosInput = {
+    set: string[]
+  }
+
   export type ProjectUpdatetechnologiesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type ProjectUpdatedrivePhotosInput = {
     set?: string[]
     push?: string | string[]
   }
