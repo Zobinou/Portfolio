@@ -30,6 +30,22 @@ export default function Hero() {
     return () => clearTimeout(timeout);
   }, [typedText]);
 
+  /*
+  Si on a besoin de ceci
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (typedText.length >= FULL_HEADING.length) {
+      timeout = setTimeout(() => {
+        setTypedText("");
+      }, 3000);
+    } else {
+      timeout = setTimeout(() => {
+        setTypedText(FULL_HEADING.slice(0, typedText.length + 1));
+      }, 55);
+    }
+  */
+
   const greetingText = typedText.slice(0, GREETING.length);
   const nameText = typedText.slice(GREETING.length);
 
