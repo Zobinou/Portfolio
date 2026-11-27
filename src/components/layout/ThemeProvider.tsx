@@ -6,12 +6,21 @@ if (typeof window !== 'undefined') {
   const originalError = console.error
   console.error = (...args: unknown[]) => {
     const first = typeof args[0] === 'string' ? args[0] : ''
-    if (
-      first.includes('Encountered a script tag while rendering React component')
-    ) {
+    if (first.includes('Encountered a script tag while rendering React component')) {
       return
     }
     originalError.apply(console, args)
+  }
+}
+
+if (typeof window === 'undefined') {
+  const originalWarn = console.warn
+  console.warn = (...args: unknown[]) => {
+    const first = typeof args[0] === 'string' ? args[0] : ''
+    if (first.includes('SECURITY WARNING') && first.includes('SSL modes')) {
+      return
+    }
+    originalWarn.apply(console, args)
   }
 }
 

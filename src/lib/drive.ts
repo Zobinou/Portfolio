@@ -1,23 +1,23 @@
-/**
- * URL de téléchargement direct pour un fichier Google Drive.
- * Le fichier doit être partagé publiquement ("Toute personne disposant du lien").
- * ✅ Fonctionne pour les PDF, ZIP, etc. (déclenche le téléchargement).
- * ❌ Ne pas utiliser comme `src` d'une balise <img>.
- */
-export function driveDownloadUrl(fileId: string): string {
-    return `https://drive.google.com/uc?export=download&id=${fileId}`
+export function extractDriveId(url: string): string | null {
+    if (!url) return null
+    const patterns = [
+        /\/file\/d\/([a-zA-Z0-9_-]{20,})/,
+        /[?&]id=([a-zA-Z0-9_-]{20,})/,
+        /\/d\/([a-zA-Z0-9_-]{20,})/,
+    ]
+    for (const p of patterns) {
+        const m = url.match(p)
+        if (m) return m[1]
+    }
+    return null
 }
 
-/** Variante avec nom de fichier suggéré (utile pour les PDF) */
-export function driveDownloadUrlWithName(fileId: string, filename: string): string {
-    return `https://drive.google.com/uc?export=download&id=${fileId}&filename=${encodeURIComponent(filename)}`
+export function driveThumbnail(url: string, size = 800): string | null {
+    const id = extractDriveId(url)
+    if (!id) return null
+    return `https://drive.google.com/thumbnail?id=${id}&sz=w${size}`
 }
 
-/**
- * URL d'image optimisée pour l'affichage (balise <img> / next/image).
- * Utilise le CDN Googleusercontent, compatible avec next/image.
- * `sz` contrôle la largeur max retournée (en pixels).
- */
-export function driveImageUrl(fileId: string, sz = 800): string {
-    return `https://lh3.googleusercontent.com/d/${fileId}=w${sz}`
+export function isDriveUrl(url: string): boolean {
+    return !!extractDriveId(url)
 }

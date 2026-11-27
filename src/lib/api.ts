@@ -17,6 +17,7 @@ export interface ApiProject {
     image: string
     lien: string
     technologies: string[]
+    drivePhotos: string[]
     featured: boolean
     order: number
 }

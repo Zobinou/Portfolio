@@ -67,6 +67,7 @@ model Project {
   image             String
   lien              String
   technologies      String[]
+  drivePhotos       String[] @default([])
   featured          Boolean  @default(false)
   order             Int      @default(0)
   createdAt         DateTime @default(now())

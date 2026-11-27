@@ -1,111 +1,254 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { contactSchema, type ContactFormValues } from '@/lib/validations/contact'
-import { sendContactEmail } from '@/app/actions/contact'
-import { Button } from '@/components/ui/button'
-import { CheckCircle, AlertCircle } from 'lucide-react'
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Send,
+    LoaderCircle,
+    CheckCircle2,
+    AlertCircle,
+    User,
+    Mail,
+    MessageSquare,
+} from "lucide-react";
+
+import {
+    contactSchema,
+    type ContactFormValues,
+} from "@/lib/validations/contact";
+
+import { sendContactEmail } from "@/app/actions/contact";
+import { Button } from "@/components/ui/button";
 
 export default function ContactForm() {
     const [serverState, setServerState] = useState<{
-        success?: boolean
-        message?: string
-    }>({})
+        success?: boolean;
+        message?: string;
+    }>({});
 
     const {
         register,
         handleSubmit,
         reset,
-        formState: { errors, isSubmitting },
+        formState: {
+            errors,
+            isSubmitting,
+        },
     } = useForm<ContactFormValues>({
         resolver: zodResolver(contactSchema),
-    })
+    });
+
+    const fieldClass =
+        "w-full rounded-xl border border-border/70 bg-bg-secondary/40 px-4 py-3.5 text-sm text-text-primary outline-none transition-all duration-300 placeholder:text-text-secondary/50 hover:border-primary/30 focus:border-primary focus:bg-bg-card focus:ring-4 focus:ring-primary/10";
+
+    const labelClass =
+        "mb-2.5 block text-sm font-semibold text-text-primary";
 
     const onSubmit = async (data: ContactFormValues) => {
-        setServerState({})
-        const formData = new FormData()
-        formData.append('name', data.name)
-        formData.append('email', data.email)
-        formData.append('message', data.message)
-        formData.append('company', data.company ?? '')
+        setServerState({});
 
-        const result = await sendContactEmail(formData)
-        setServerState(result)
-        if (result.success) reset()
-    }
+        const formData = new FormData();
+
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("message", data.message);
+        formData.append("company", data.company ?? "");
+
+        try {
+            const result = await sendContactEmail(formData);
+
+            setServerState(result);
+
+            if (result.success) {
+                reset();
+            }
+        } catch {
+            setServerState({
+                success: false,
+                message:
+                    "Impossible d'envoyer votre message pour le moment. Veuillez réessayer.",
+            });
+        }
+    };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-5">
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="relative space-y-5"
+            noValidate
+        >
             <input
                 type="text"
-                {...register('company')}
+                {...register("company")}
                 tabIndex={-1}
                 autoComplete="off"
-                className="absolute left-[-9999px]"
                 aria-hidden="true"
+                className="sr-only"
             />
 
             <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-text-primary">
-                    Nom complet
+                <label htmlFor="name" className={labelClass}>
+                    <span className="inline-flex items-center gap-2">
+                        <User className="h-4 w-4 text-primary" />
+                        Nom complet
+                    </span>
                 </label>
+
                 <input
                     id="name"
                     type="text"
-                    {...register('name')}
-                    className="w-full rounded-lg border border-border bg-bg-card px-4 py-3 text-sm text-text-primary outline-none transition-colors focus:border-primary"
-                    placeholder="Votre nom"
+                    autoComplete="name"
+                    placeholder="Ex. : Jean Dupont"
+                    aria-invalid={!!errors.name}
+                    aria-describedby={errors.name ? "name-error" : undefined}
+                    {...register("name")}
+                    className={`${fieldClass} ${errors.name
+                            ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                            : ""
+                        }`}
                 />
-                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name.message}</p>}
+
+                {errors.name && (
+                    <p
+                        id="name-error"
+                        role="alert"
+                        className="mt-2 flex items-center gap-1.5 text-xs font-medium text-red-500"
+                    >
+                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                        {errors.name.message}
+                    </p>
+                )}
             </div>
 
             <div>
-                <label htmlFor="email" className="mb-2 block text-sm font-medium text-text-primary">
-                    Adresse email
+                <label htmlFor="email" className={labelClass}>
+                    <span className="inline-flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-primary" />
+                        Adresse email
+                    </span>
                 </label>
+
                 <input
                     id="email"
                     type="email"
-                    {...register('email')}
-                    className="w-full rounded-lg border border-border bg-bg-card px-4 py-3 text-sm text-text-primary outline-none transition-colors focus:border-primary"
+                    autoComplete="email"
                     placeholder="vous@exemple.com"
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-error" : undefined}
+                    {...register("email")}
+                    className={`${fieldClass} ${errors.email
+                            ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                            : ""
+                        }`}
                 />
-                {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email.message}</p>}
+
+                {errors.email && (
+                    <p
+                        id="email-error"
+                        role="alert"
+                        className="mt-2 flex items-center gap-1.5 text-xs font-medium text-red-500"
+                    >
+                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                        {errors.email.message}
+                    </p>
+                )}
             </div>
 
             <div>
-                <label htmlFor="message" className="mb-2 block text-sm font-medium text-text-primary">
-                    Message
+                <label htmlFor="message" className={labelClass}>
+                    <span className="inline-flex items-center gap-2">
+                        <MessageSquare className="h-4 w-4 text-primary" />
+                        Votre message
+                    </span>
                 </label>
+
                 <textarea
                     id="message"
-                    rows={5}
-                    {...register('message')}
-                    className="w-full resize-none rounded-lg border border-border bg-bg-card px-4 py-3 text-sm text-text-primary outline-none transition-colors focus:border-primary"
-                    placeholder="Décrivez votre projet ou votre demande..."
+                    rows={6}
+                    placeholder="Présentez votre projet, votre demande ou votre proposition de collaboration..."
+                    aria-invalid={!!errors.message}
+                    aria-describedby={
+                        errors.message ? "message-error" : undefined
+                    }
+                    {...register("message")}
+                    className={`${fieldClass} min-h-40 resize-y leading-7 ${errors.message
+                            ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                            : ""
+                        }`}
                 />
-                {errors.message && <p className="mt-1 text-xs text-red-500">{errors.message.message}</p>}
+
+                {errors.message && (
+                    <p
+                        id="message-error"
+                        role="alert"
+                        className="mt-2 flex items-center gap-1.5 text-xs font-medium text-red-500"
+                    >
+                        <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                        {errors.message.message}
+                    </p>
+                )}
             </div>
 
-            <Button type="submit" size="lg" disabled={isSubmitting} className="w-full sm:w-auto">
-                {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+            <Button
+                type="submit"
+                size="lg"
+                disabled={isSubmitting}
+                className="group h-13 w-full gap-3 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-primary/30 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+                {isSubmitting ? (
+                    <>
+                        <LoaderCircle className="h-4 w-4 animate-spin" />
+                        Envoi en cours...
+                    </>
+                ) : (
+                    <>
+                        Envoyer mon message
+                        <Send className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5" />
+                    </>
+                )}
             </Button>
 
-            {serverState.success && (
-                <div className="flex items-center gap-2 rounded-lg border border-green-500/30 bg-green-500/10 px-4 py-3 text-sm text-green-600 dark:text-green-400">
-                    <CheckCircle className="h-4 w-4 shrink-0" />
-                    {serverState.message ?? 'Message envoyé avec succès !'}
-                </div>
-            )}
+            <div aria-live="polite" aria-atomic="true">
+                {serverState.success === true && (
+                    <div
+                        role="status"
+                        className="flex items-start gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-600 dark:text-green-400"
+                    >
+                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
 
-            {serverState.success === false && (
-                <div className="flex items-center gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-400">
-                    <AlertCircle className="h-4 w-4 shrink-0" />
-                    {serverState.message ?? 'Une erreur est survenue.'}
-                </div>
-            )}
+                        <div>
+                            <p className="font-bold">Message envoyé avec succès !</p>
+
+                            <p className="mt-1 leading-relaxed">
+                                {serverState.message ?? "Merci pour votre message."}
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {serverState.success === false && (
+                    <div
+                        role="alert"
+                        className="flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400"
+                    >
+                        <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
+
+                        <div>
+                            <p className="font-bold">Échec de l&apos;envoi</p>
+
+                            <p className="mt-1 leading-relaxed">
+                                {serverState.message ?? "Une erreur est survenue."}
+                            </p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
+            <p className="text-center text-[11px] leading-relaxed text-text-secondary/70">
+                En envoyant ce formulaire, votre message sera transmis
+                pour traitement de votre demande.
+            </p>
         </form>
-    )
+    );
 }

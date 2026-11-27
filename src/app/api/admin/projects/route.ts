@@ -12,6 +12,5 @@ export async function POST(req: Request) {
     if (!(await requireAdmin())) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     const parsed = projectSchema.safeParse(await req.json())
     if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
-    const created = await prisma.project.create({ data: parsed.data })
-    return NextResponse.json(created, { status: 201 })
+    return NextResponse.json(await prisma.project.create({ data: parsed.data }), { status: 201 })
 }

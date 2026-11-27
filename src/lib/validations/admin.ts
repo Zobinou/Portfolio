@@ -9,6 +9,7 @@ export const projectSchema = z.object({
     image: z.string().url(),
     lien: z.string().url(),
     technologies: z.array(z.string()),
+    drivePhotos: z.array(z.string().url()).default([]),
     featured: z.boolean().optional(),
     order: z.number().int().optional(),
 })

@@ -1,14 +1,31 @@
-import { headers } from "next/headers"
-import { auth } from "@/lib/auth"
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 export async function requireAdmin() {
-    const session = await auth.api.getSession({ headers: await headers() })
-    if (!session) return null
-    const allowed = process.env.ADMIN_GITHUB_USERNAME?.toLowerCase()
-    if (allowed) {
-        const name = session.user.name?.toLowerCase() ?? ""
-        const email = session.user.email?.toLowerCase() ?? ""
-        if (!name.includes(allowed) && !email.includes(allowed)) return null
+    const requestHeaders = await headers();
+
+    const session = await auth.api.getSession({
+        headers: requestHeaders,
+    });
+
+    if (!session) {
+        return null;
     }
-    return session
+
+    const allowlist = (process.env.ADMIN_EMAILS ?? "")
+        .split(",")
+        .map((email) => email.trim().toLowerCase())
+        .filter(Boolean);
+
+    if (allowlist.length === 0) {
+        return session;
+    }
+
+    const email = session.user.email?.toLowerCase() ?? "";
+
+    if (!allowlist.includes(email)) {
+        return null;
+    }
+
+    return session;
 }
