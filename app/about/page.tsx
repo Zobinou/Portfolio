@@ -1,42 +1,74 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+
 import About from "@/components/sections/About";
 import Education from "@/components/sections/Education";
 import Experience from "@/components/sections/Experience";
-import Qualities from "@/components/sections/Qualities";
 import { api } from "@/lib/api";
 
 export const metadata: Metadata = {
-    title: "À propos | Zo Lantosoa",
+    title: "À propos | Niritsiafoy Lantosoa",
     description:
-        "Découvrez le parcours, la formation académique et les expériences professionnelles de Zo Lantosoa.",
+        "Découvrez le parcours, la formation et l'expérience professionnelle de Niritsiafoy Lantosoa.",
 };
 
-export default async function AboutPage() {
-    const [education, experience, qualities] = await Promise.all([
-        api.education(),
-        api.experience(),
-        api.qualities(),
+async function AboutContent() {
+    const [educationResult, experienceResult] = await Promise.all([
+        api.education().catch((error) => {
+            console.error("[About] Erreur lors du chargement des formations :", error);
+            return undefined;
+        }),
+
+        api.experience().catch((error) => {
+            console.error(
+                "[About] Erreur lors du chargement des expériences :",
+                error
+            );
+            return undefined;
+        }),
     ]);
 
     return (
-        <main className="relative min-h-screen overflow-hidden pt-12">
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-0 top-40 -z-10 h-96 w-96 rounded-full bg-primary/5 blur-[120px]"
-            />
-
-            <div
-                aria-hidden="true"
-                className="pointer-events-none absolute right-0 top-[55%] -z-10 h-96 w-96 rounded-full bg-accent-blue/5 blur-[120px]"
-            />
-
+        <div className="pt-12">
             <About />
 
-            <Education education={education} />
+            <Education education={educationResult} />
 
-            <Experience experience={experience} />
+            <Experience experience={experienceResult} />
+        </div>
+    );
+}
 
-            <Qualities qualities={qualities.map((quality) => quality.label)} />
+function AboutLoading() {
+    return (
+        <main className="min-h-screen space-y-16 px-5 pb-20 pt-32 sm:px-8">
+            <div className="mx-auto max-w-7xl animate-pulse">
+                <div className="grid items-center gap-12 md:grid-cols-2">
+                    <div className="space-y-5">
+                        <div className="h-7 w-36 rounded-full bg-text-secondary/10" />
+                        <div className="h-12 max-w-lg rounded-xl bg-text-secondary/10" />
+                        <div className="h-5 max-w-xl rounded-lg bg-text-secondary/10" />
+                        <div className="h-5 max-w-md rounded-lg bg-text-secondary/10" />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        {Array.from({ length: 4 }).map((_, index) => (
+                            <div
+                                key={index}
+                                className="h-40 rounded-3xl border border-border bg-bg-card"
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </main>
+    );
+}
+
+export default function AboutPage() {
+    return (
+        <Suspense fallback={<AboutLoading />}>
+            <AboutContent />
+        </Suspense>
     );
 }

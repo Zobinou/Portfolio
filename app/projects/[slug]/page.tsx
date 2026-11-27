@@ -1,267 +1,332 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import {
-  ArrowLeft,
-  ArrowUpRight,
-  ExternalLink,
-  Images,
-  Code2,
-  Layers3,
-  Sparkles,
-} from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Images } from "lucide-react";
 import { api } from "@/lib/api";
-import { driveThumbnail } from "@/lib/drive";
 
 interface PageProps {
-  params: Promise<{ slug: string }>;
+    params: Promise<{
+        slug: string;
+    }>;
+}
+
+interface ProjectDetail {
+    slug?: string;
+    numero?: string | number;
+    titre?: string;
+    description?: string;
+    image?: string;
+    technologies?: string[];
+    drivePhotos?: string[];
+}
+
+function driveThumbnail(url: string, size = 1200): string {
+    try {
+        const parsedUrl = new URL(url);
+
+        const fileId =
+            parsedUrl.pathname.match(/\/file\/d\/([^/]+)/)?.[1] ??
+            parsedUrl.searchParams.get("id");
+
+        if (
+            fileId &&
+            parsedUrl.hostname.includes("drive.google.com")
+        ) {
+            return `https://drive.google.com/thumbnail?id=${fileId}&sz=w${size}`;
+        }
+
+        return url;
+    } catch {
+        return url;
+    }
 }
 
 export async function generateMetadata({
-  params,
+    params,
 }: PageProps): Promise<Metadata> {
-  const { slug } = await params;
+    const { slug } = await params;
 
-  try {
-    const project = await api.project(slug);
+    try {
+        const project = (await api.project(slug)) as ProjectDetail | null;
 
-    return {
-      title: `${project.titre} | Niritsiafoy Lantosoa`,
-      description: project.description,
-      openGraph: {
-        title: project.titre,
-        description: project.description,
-        images: [project.image],
-      },
-    };
-  } catch {
-    return {
-      title: "Projet introuvable",
-    };
-  }
+        if (!project) {
+            return {
+                title: "Projet introuvable | Zo Lantosoa",
+                description: "Ce projet est introuvable.",
+            };
+        }
+
+        return {
+            title: `${project.titre ?? "Projet"} | Zo Lantosoa`,
+            description:
+                project.description ??
+                "Découvrez les réalisations de Zo Lantosoa.",
+            openGraph: {
+                title: `${project.titre ?? "Projet"} | Zo Lantosoa`,
+                description:
+                    project.description ??
+                    "Découvrez les réalisations de Zo Lantosoa.",
+                ...(project.image && {
+                    images: [driveThumbnail(project.image)],
+                }),
+            },
+        };
+    } catch (error) {
+        console.error(
+            "[ProjectDetail] Erreur lors de la génération des métadonnées :",
+            error,
+        );
+
+        return {
+            title: "Projet | Zo Lantosoa",
+            description: "Découvrez les réalisations de Zo Lantosoa.",
+        };
+    }
 }
 
-export default async function ProjectDetailPage({
-  params,
-}: PageProps) {
-  const { slug } = await params;
+async function ProjectDetailContent({ params }: PageProps) {
+    const { slug } = await params;
 
-  const project = await api.project(slug).catch(() => null);
+    const project = (await api.project(slug).catch((error) => {
+        console.error("[ProjectDetail] Erreur :", error);
+        return null;
+    })) as ProjectDetail | null;
 
-  if (!project) {
-    notFound();
-  }
+    if (!project) {
+        notFound();
+    }
 
-  const drivePhotos = (project.drivePhotos ?? [])
-    .map((url) => ({
-      url,
-      thumb: driveThumbnail(url, 1200),
-    }))
-    .filter(
-      (photo): photo is { url: string; thumb: string } =>
-        photo.thumb !== null
-    );
+    const title = project.titre ?? "Projet sans titre";
+    const description =
+        project.description ?? "Aucune description disponible pour ce projet.";
 
-  return (
-    <main className="relative isolate min-h-screen overflow-hidden bg-bg-primary pb-24 pt-32 md:pt-36 md:pb-32">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 top-40 -z-10 h-96 w-96 rounded-full bg-primary/10 blur-[120px]"
-      />
+    const technologies = Array.isArray(project.technologies)
+        ? project.technologies.filter(
+              (technology): technology is string =>
+                  typeof technology === "string",
+          )
+        : [];
 
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -right-40 top-[50%] -z-10 h-96 w-96 rounded-full bg-accent-blue/10 blur-[120px]"
-      />
+    const drivePhotos = Array.isArray(project.drivePhotos)
+        ? project.drivePhotos.filter(
+              (photo): photo is string =>
+                  typeof photo === "string" && photo.length > 0,
+          )
+        : [];
 
-      <div className="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
-        <Link
-          href="/projects"
-          className="group inline-flex items-center gap-2 rounded-full border border-border/70 bg-bg-card/70 px-4 py-2.5 text-sm font-medium text-text-secondary shadow-sm backdrop-blur-sm transition-all duration-300 hover:border-primary/40 hover:text-primary"
-        >
-          <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-          Retour aux projets
-        </Link>
+    const coverImage = project.image
+        ? driveThumbnail(project.image)
+        : drivePhotos.length > 0
+          ? driveThumbnail(drivePhotos[0])
+          : null;
 
-        <header className="mt-10 md:mt-14">
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5 text-xs font-bold tracking-wider text-primary">
-              <Sparkles className="h-3.5 w-3.5" />
-              {project.numero}
-            </span>
+    const galleryPhotos = drivePhotos
+        .map((photo) => driveThumbnail(photo))
+        .filter((photo) => photo !== coverImage);
 
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-text-secondary">
-              <Code2 className="h-4 w-4 text-primary" />
-              Project showcase
-            </span>
-          </div>
-
-          <div className="mt-6 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-            <div className="max-w-4xl">
-              <h1 className="font-display text-3xl font-extrabold leading-[1.15] tracking-tight text-text-primary sm:text-4xl md:text-5xl lg:text-6xl">
-                {project.titre}
-              </h1>
-
-              <p className="mt-6 max-w-3xl text-sm leading-8 text-text-secondary sm:text-base sm:leading-9">
-                {project.descriptionLongue}
-              </p>
-            </div>
-
-            <div className="flex shrink-0 items-center gap-2 rounded-2xl border border-border/70 bg-bg-card/80 px-4 py-3 shadow-sm">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Layers3 className="h-5 w-5" />
-              </div>
-
-              <div>
-                <p className="text-lg font-extrabold text-text-primary">
-                  {project.technologies.length}
-                </p>
-                <p className="text-[10px] font-semibold uppercase tracking-wider text-text-secondary">
-                  Technologies
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-8">
-            <div className="mb-3 flex items-center gap-2">
-              <Code2 className="h-4 w-4 text-primary" />
-
-              <span className="text-xs font-bold uppercase tracking-wider text-text-secondary">
-                Technologies utilisées
-              </span>
-            </div>
-
-            <div className="flex flex-wrap gap-2">
-              {project.technologies.map((technology) => (
-                <span
-                  key={technology}
-                  className="rounded-xl border border-primary/15 bg-primary/5 px-3.5 py-2 text-xs font-semibold text-primary transition-all duration-300 hover:border-primary/40 hover:bg-primary/10"
-                >
-                  {technology}
-                </span>
-              ))}
-            </div>
-          </div>
-        </header>
-
-        <section className="mt-12 md:mt-16">
-          <div className="group relative aspect-video overflow-hidden rounded-3xl border border-border/70 bg-bg-secondary shadow-xl shadow-black/5">
-            <Image
-              src={project.image}
-              alt={`Aperçu principal du projet ${project.titre}`}
-              fill
-              sizes="(max-width: 1024px) 100vw, 1152px"
-              priority
-              className="object-cover transition-transform duration-700 group-hover:scale-[1.025]"
+    return (
+        <main className="relative isolate min-h-screen overflow-hidden bg-bg-primary px-5 pb-20 pt-28 sm:px-8 lg:px-12">
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -left-40 top-40 -z-10 h-96 w-96 rounded-full bg-primary/10 blur-[120px]"
             />
 
-            <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent" />
+            <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-40 top-[45%] -z-10 h-96 w-96 rounded-full bg-accent-blue/10 blur-[120px]"
+            />
 
-            <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-4 py-2 text-xs font-semibold text-white shadow-lg backdrop-blur-md sm:bottom-6 sm:left-6">
-              <Sparkles className="h-3.5 w-3.5" />
-              Aperçu du projet
-            </span>
-          </div>
-        </section>
+            <div className="mx-auto max-w-6xl">
+                <Link
+                    href="/projects"
+                    className="group inline-flex items-center gap-2 rounded-full border border-text-secondary/10 bg-bg-card px-5 py-3 text-sm font-medium text-text-secondary transition-all duration-300 hover:border-primary/40 hover:text-primary"
+                >
+                    <ArrowLeft
+                        size={17}
+                        className="transition-transform duration-300 group-hover:-translate-x-1"
+                    />
+                    Retour aux projets
+                </Link>
 
-        <section className="mt-8 flex flex-col gap-5 rounded-3xl border border-border/70 bg-bg-card/80 p-5 shadow-sm backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:p-7">
-          <div>
-            <h2 className="font-display text-lg font-bold text-text-primary sm:text-xl">
-              Découvrez le projet en action
-            </h2>
+                <section className="mt-12">
+                    <div className="mb-6 flex flex-wrap items-center gap-3">
+                        <span className="rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                            Projet
+                        </span>
 
-            <p className="mt-2 text-sm leading-relaxed text-text-secondary">
-              Consultez la réalisation directement depuis son environnement en ligne.
-            </p>
-          </div>
+                        {project.numero !== undefined && (
+                            <span className="text-sm font-medium text-text-secondary">
+                                Réalisation n° {project.numero}
+                            </span>
+                        )}
+                    </div>
 
-          <Link
-            href={project.lien}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:bg-primary/90 hover:shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            Voir le projet en ligne
-            <ExternalLink className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-          </Link>
-        </section>
+                    <h1 className="max-w-4xl text-4xl font-bold leading-tight tracking-tight text-text-primary sm:text-5xl lg:text-6xl">
+                        {title}
+                    </h1>
 
-        {drivePhotos.length > 0 && (
-          <section className="mt-20 md:mt-24">
-            <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-              <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3.5 py-1.5">
-                  <Images className="h-4 w-4 text-primary" />
+                    <p className="mt-6 max-w-3xl text-base leading-8 text-text-secondary sm:text-lg">
+                        {description}
+                    </p>
 
-                  <span className="text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
-                    Project gallery
-                  </span>
+                    {technologies.length > 0 && (
+                        <div className="mt-8 flex flex-wrap gap-2">
+                            {technologies.map((technology, index) => (
+                                <span
+                                    key={`${technology}-${index}`}
+                                    className="rounded-full border border-text-secondary/10 bg-bg-card px-4 py-2 text-xs font-medium text-text-secondary transition-colors duration-300 hover:border-primary/40 hover:text-primary sm:text-sm"
+                                >
+                                    {technology}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </section>
+
+                {coverImage && (
+                    <section className="mt-14">
+                        <div className="group relative aspect-video overflow-hidden rounded-2xl border border-text-secondary/10 bg-bg-card shadow-2xl shadow-black/10 sm:rounded-3xl">
+                            <Image
+                                src={coverImage}
+                                alt={`Aperçu du projet ${title}`}
+                                fill
+                                priority
+                                sizes="(max-width: 768px) 100vw, 1200px"
+                                className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                            />
+
+                            <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-transparent" />
+                        </div>
+                    </section>
+                )}
+
+                {galleryPhotos.length > 0 && (
+                    <section className="mt-16">
+                        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+                            <div>
+                                <div className="mb-3 flex items-center gap-2 text-primary">
+                                    <Images size={19} />
+                                    <span className="text-xs font-semibold uppercase tracking-[0.2em]">
+                                        Galerie
+                                    </span>
+                                </div>
+
+                                <h2 className="text-2xl font-bold text-text-primary sm:text-3xl">
+                                    Aperçus du projet
+                                </h2>
+
+                                <p className="mt-2 text-sm text-text-secondary">
+                                    Découvrez les différentes interfaces et
+                                    réalisations de ce projet.
+                                </p>
+                            </div>
+
+                            <span className="rounded-full border border-text-secondary/10 bg-bg-card px-4 py-2 text-xs font-medium text-text-secondary">
+                                {galleryPhotos.length + (coverImage ? 1 : 0)} images
+                            </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            {galleryPhotos.map((photo, index) => (
+                                <div
+                                    key={`${photo}-${index}`}
+                                    className="group relative aspect-video overflow-hidden rounded-2xl border border-text-secondary/10 bg-bg-card"
+                                >
+                                    <Image
+                                        src={photo}
+                                        alt={`Capture ${index + 1} du projet ${title}`}
+                                        fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
+                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                    />
+
+                                    <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+
+                                    <span className="absolute bottom-4 left-4 rounded-full border border-white/20 bg-black/50 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-md">
+                                        Aperçu {index + 1}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {!coverImage && galleryPhotos.length === 0 && (
+                    <div className="mt-14 rounded-2xl border border-dashed border-text-secondary/20 bg-bg-card p-10 text-center">
+                        <Images
+                            size={36}
+                            className="mx-auto text-text-secondary/50"
+                        />
+                        <p className="mt-4 text-sm text-text-secondary">
+                            Aucune image n&apos;est disponible pour ce projet.
+                        </p>
+                    </div>
+                )}
+
+                <div className="mt-20 border-t border-text-secondary/10 pt-10">
+                    <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+                        <div>
+                            <h2 className="text-xl font-bold text-text-primary sm:text-2xl">
+                                Découvrir d&apos;autres réalisations ?
+                            </h2>
+                            <p className="mt-2 text-sm text-text-secondary">
+                                Retrouvez les autres projets dans le portfolio.
+                            </p>
+                        </div>
+
+                        <Link
+                            href="/projects"
+                            className="group inline-flex items-center gap-3 rounded-full bg-primary px-6 py-3.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-primary/20"
+                        >
+                            Tous les projets
+                            <ArrowUpRight
+                                size={18}
+                                className="transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1"
+                            />
+                        </Link>
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
+}
+
+function ProjectDetailLoading() {
+    return (
+        <main className="min-h-screen animate-pulse bg-bg-primary px-5 pt-32 sm:px-8 lg:px-12">
+            <div className="mx-auto max-w-6xl">
+                <div className="h-10 w-44 rounded-full bg-text-secondary/10" />
+
+                <div className="mt-12 h-5 w-28 rounded-full bg-text-secondary/10" />
+
+                <div className="mt-6 h-12 max-w-xl rounded-xl bg-text-secondary/10 sm:h-16" />
+
+                <div className="mt-6 h-5 max-w-3xl rounded-lg bg-text-secondary/10" />
+                <div className="mt-3 h-5 max-w-2xl rounded-lg bg-text-secondary/10" />
+
+                <div className="mt-8 flex gap-3">
+                    <div className="h-9 w-24 rounded-full bg-text-secondary/10" />
+                    <div className="h-9 w-28 rounded-full bg-text-secondary/10" />
+                    <div className="h-9 w-24 rounded-full bg-text-secondary/10" />
                 </div>
 
-                <h2 className="font-display text-2xl font-extrabold text-text-primary sm:text-3xl lg:text-4xl">
-                  Galerie du{" "}
-                  <span className="bg-linear-to-r from-primary to-accent-blue bg-clip-text text-transparent">
-                    projet
-                  </span>
-                </h2>
+                <div className="mt-12 aspect-video rounded-3xl bg-bg-card" />
 
-                <p className="mt-3 max-w-xl text-sm leading-7 text-text-secondary">
-                  Découvrez quelques aperçus et captures d&apos;écran
-                  de cette réalisation.
-                </p>
-              </div>
-
-              <span className="rounded-full border border-border/70 bg-bg-card px-4 py-2 text-xs font-semibold text-text-secondary">
-                {drivePhotos.length} photo{drivePhotos.length > 1 ? "s" : ""}
-              </span>
+                <div className="mt-16 grid grid-cols-1 gap-5 sm:grid-cols-2">
+                    <div className="aspect-video rounded-2xl bg-bg-card" />
+                    <div className="aspect-video rounded-2xl bg-bg-card" />
+                </div>
             </div>
+        </main>
+    );
+}
 
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {drivePhotos.map((photo, index) => (
-                <a
-                  key={photo.url}
-                  href={photo.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Ouvrir la photo ${index + 1} de ${project.titre}`}
-                  className="group relative block aspect-4/3 overflow-hidden rounded-2xl border border-border/70 bg-bg-secondary shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-primary/40 hover:shadow-xl hover:shadow-primary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-                >
-                  <Image
-                    src={photo.thumb}
-                    alt={`${project.titre} — aperçu ${index + 1}`}
-                    fill
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    loading="lazy"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-
-                  <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/5 to-transparent opacity-60 transition-opacity duration-300 group-hover:opacity-100" />
-
-                  <span className="absolute bottom-4 left-4 text-xs font-bold tracking-wider text-white">
-                    IMAGE / {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <div className="absolute right-4 top-4 flex h-10 w-10 translate-y-2 items-center justify-center rounded-full border border-white/20 bg-black/35 text-white opacity-0 shadow-lg backdrop-blur-md transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-                    <ArrowUpRight className="h-5 w-5" />
-                  </div>
-                </a>
-              ))}
-            </div>
-          </section>
-        )}
-
-        <div className="mt-16 flex justify-center border-t border-border/60 pt-10">
-          <Link
-            href="/projects"
-            className="group inline-flex items-center gap-3 rounded-xl border border-border bg-bg-card px-6 py-3 text-sm font-semibold text-text-secondary transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:text-primary hover:shadow-lg hover:shadow-primary/5"
-          >
-            <ArrowLeft className="h-4 w-4 transition-transform duration-300 group-hover:-translate-x-1" />
-            Tous les projets
-          </Link>
-        </div>
-      </div>
-    </main>
-  );
+export default function ProjectDetailPage({ params }: PageProps) {
+    return (
+        <Suspense fallback={<ProjectDetailLoading />}>
+            <ProjectDetailContent params={params} />
+        </Suspense>
+    );
 }

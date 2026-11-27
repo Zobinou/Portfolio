@@ -70,8 +70,12 @@ export default function Footer() {
               />
               <span>Zo Lantosoa</span>
             </Link>
-            <p className="text-xs leading-relaxed text-text-secondary">
-              Transformation Numérique
+
+            <p className="max-w-md text-xs leading-relaxed text-text-secondary sm:text-sm sm:leading-7">
+              Passionnée par la Data et les nouvelles technologies, je transforme
+              les données et les idées en solutions numériques innovantes,
+              en combinant analyse de données, développement web, solutions ERP
+              avec Odoo et marketing digital.
             </p>
 
             <div className="mt-1 flex items-center gap-2">
