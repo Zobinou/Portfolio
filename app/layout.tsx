@@ -24,7 +24,7 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Zo Lantosoa | Data, technologie et innovation numérique",
   description:
-    "Portfolio de Zo Lantosoa, Data, technologie et innovation numérique",
+    "Portfolio de Zo Lantosoa | Data, technologie et innovation numérique",
   icons: {
     icon: [
       {
