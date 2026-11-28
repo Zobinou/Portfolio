@@ -10,7 +10,6 @@ import {
   Rocket,
   Sparkles,
 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import FadeIn from "@/components/animations/FadeIn";
 import {
