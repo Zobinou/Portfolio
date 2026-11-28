@@ -58,20 +58,22 @@ model Verification {
 }
 
 model Project {
-  id                String   @id @default(cuid())
-  slug              String   @unique
+  id                String          @id @default(cuid())
+  slug              String          @unique
   numero            String
   titre             String
   description       String
   descriptionLongue String
   image             String
   lien              String
-  technologies      String[]
-  drivePhotos       String[] @default([])
-  featured          Boolean  @default(false)
-  order             Int      @default(0)
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  typeProjet        ProjectType     @default(PERSONNEL)
+  typeApplication   ApplicationType @default(WEB)
+  technologies      String[]        @default([])
+  drivePhotos       String[]        @default([])
+  featured          Boolean         @default(false)
+  order             Int             @default(0)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
 }
 
 model Skill {
@@ -118,10 +120,68 @@ model Testimonial {
 }
 
 model ContactMessage {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  message   String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id                      String                    @id @default(cuid())
+  name                    String
+  email                   String
+  message                 String                    @db.Text
+  read                    Boolean                   @default(false)
+  status                  ContactMessageStatus      @default(NEW)
+  emailNotificationStatus ContactNotificationStatus @default(PENDING)
+  gmailThreadId           String?                   @unique
+  gmailNotificationId     String?                   @unique
+  gmailRfcMessageId       String?
+  gmailSubject            String?
+  replies                 ContactReply[]
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+}
+
+model ContactReply {
+  id                String              @id @default(cuid())
+  contactMessageId  String
+  contactMessage    ContactMessage      @relation(fields: [contactMessageId], references: [id], onDelete: Cascade)
+  body              String              @db.Text
+  channel           ContactReplyChannel
+  gmailMessageId    String?             @unique
+  gmailRfcMessageId String?
+  createdAt         DateTime            @default(now())
+
+  @@index([contactMessageId, createdAt])
+}
+
+enum ContactMessageStatus {
+  NEW
+  IN_PROGRESS
+  REPLIED
+}
+
+enum ContactReplyChannel {
+  DASHBOARD
+  GMAIL
+}
+
+enum ContactNotificationStatus {
+  PENDING
+  SENT
+  FAILED
+}
+
+enum ProjectType {
+  PERSONNEL
+  SCOLAIRE
+  ENTREPRISE
+  OPEN_SOURCE
+  INSTITUTIONNEL
+}
+
+enum ApplicationType {
+  WEB
+  MOBILE
+  DESKTOP
+  API
+  LIBRARY
+  GAME
+  ERP
+  DATA
+  OTHER
 }

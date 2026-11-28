@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
     Send,
     LoaderCircle,
     CheckCircle2,
     AlertCircle,
+    AlertTriangle,
     User,
     Mail,
     MessageSquare,
@@ -18,8 +20,10 @@ import {
     type ContactFormValues,
 } from "@/lib/validations/contact";
 
-import { sendContactEmail } from "@/app/actions/contact";
 import { Button } from "@/components/ui/button";
+
+const MIN_MESSAGE_LENGTH = 10;
+const MAX_MESSAGE_LENGTH = 2000;
 
 export default function ContactForm() {
     const [serverState, setServerState] = useState<{
@@ -28,6 +32,7 @@ export default function ContactForm() {
     }>({});
 
     const {
+        control,
         register,
         handleSubmit,
         reset,
@@ -37,7 +42,25 @@ export default function ContactForm() {
         },
     } = useForm<ContactFormValues>({
         resolver: zodResolver(contactSchema),
+        defaultValues: {
+            name: "",
+            email: "",
+            message: "",
+            company: "",
+        },
     });
+
+    const messageValue = useWatch({ control, name: "message" }) ?? "";
+    const messageLength = messageValue.trim().length;
+
+    const isMessageIncomplete =
+        messageValue.length > 0 &&
+        messageLength < MIN_MESSAGE_LENGTH;
+
+    const charactersRemaining = Math.max(
+        0,
+        MIN_MESSAGE_LENGTH - messageLength,
+    );
 
     const fieldClass =
         "w-full rounded-xl border border-border/70 bg-bg-secondary/40 px-4 py-3.5 text-sm text-text-primary outline-none transition-all duration-300 placeholder:text-text-secondary/50 hover:border-primary/30 focus:border-primary focus:bg-bg-card focus:ring-4 focus:ring-primary/10";
@@ -48,26 +71,39 @@ export default function ContactForm() {
     const onSubmit = async (data: ContactFormValues) => {
         setServerState({});
 
-        const formData = new FormData();
-
-        formData.append("name", data.name);
-        formData.append("email", data.email);
-        formData.append("message", data.message);
-        formData.append("company", data.company ?? "");
-
         try {
-            const result = await sendContactEmail(formData);
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
 
-            setServerState(result);
+            const result = await response.json();
 
-            if (result.success) {
-                reset();
+            if (!response.ok || !result.success) {
+                throw new Error(
+                    result.message ??
+                    "Impossible d'envoyer votre message.",
+                );
             }
-        } catch {
+
+            setServerState({
+                success: true,
+                message:
+                    result.message ??
+                    "Votre message a bien été reçu.",
+            });
+
+            reset();
+        } catch (error) {
             setServerState({
                 success: false,
                 message:
-                    "Impossible d'envoyer votre message pour le moment. Veuillez réessayer.",
+                    error instanceof Error
+                        ? error.message
+                        : "Impossible d'envoyer votre message pour le moment. Veuillez réessayer.",
             });
         }
     };
@@ -78,15 +114,25 @@ export default function ContactForm() {
             className="relative space-y-5"
             noValidate
         >
-            <input
-                type="text"
-                {...register("company")}
-                tabIndex={-1}
-                autoComplete="off"
+            {/* Honeypot anti-bot */}
+            <div
                 aria-hidden="true"
-                className="sr-only"
-            />
+                className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
+            >
+                <label htmlFor="company">
+                    Entreprise
+                </label>
 
+                <input
+                    id="company"
+                    type="text"
+                    {...register("company")}
+                    tabIndex={-1}
+                    autoComplete="off"
+                />
+            </div>
+
+            {/* Nom */}
             <div>
                 <label htmlFor="name" className={labelClass}>
                     <span className="inline-flex items-center gap-2">
@@ -99,13 +145,16 @@ export default function ContactForm() {
                     id="name"
                     type="text"
                     autoComplete="name"
-                    placeholder="Ex. : Jean Dupont"
+                    maxLength={50}
+                    placeholder="Ex. : Jack Sparrow"
                     aria-invalid={!!errors.name}
-                    aria-describedby={errors.name ? "name-error" : undefined}
+                    aria-describedby={
+                        errors.name ? "name-error" : undefined
+                    }
                     {...register("name")}
                     className={`${fieldClass} ${errors.name
-                            ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
-                            : ""
+                        ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                        : ""
                         }`}
                 />
 
@@ -121,6 +170,7 @@ export default function ContactForm() {
                 )}
             </div>
 
+            {/* Email */}
             <div>
                 <label htmlFor="email" className={labelClass}>
                     <span className="inline-flex items-center gap-2">
@@ -135,11 +185,13 @@ export default function ContactForm() {
                     autoComplete="email"
                     placeholder="vous@exemple.com"
                     aria-invalid={!!errors.email}
-                    aria-describedby={errors.email ? "email-error" : undefined}
+                    aria-describedby={
+                        errors.email ? "email-error" : undefined
+                    }
                     {...register("email")}
                     className={`${fieldClass} ${errors.email
-                            ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
-                            : ""
+                        ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                        : ""
                         }`}
                 />
 
@@ -155,6 +207,7 @@ export default function ContactForm() {
                 )}
             </div>
 
+            {/* Message */}
             <div>
                 <label htmlFor="message" className={labelClass}>
                     <span className="inline-flex items-center gap-2">
@@ -166,18 +219,52 @@ export default function ContactForm() {
                 <textarea
                     id="message"
                     rows={6}
+                    maxLength={MAX_MESSAGE_LENGTH}
                     placeholder="Présentez votre projet, votre demande ou votre proposition de collaboration..."
                     aria-invalid={!!errors.message}
-                    aria-describedby={
-                        errors.message ? "message-error" : undefined
-                    }
+                    aria-describedby={[
+                        errors.message ? "message-error" : null,
+                        isMessageIncomplete ? "message-warning" : null,
+                        "message-counter",
+                    ]
+                        .filter(Boolean)
+                        .join(" ")}
                     {...register("message")}
                     className={`${fieldClass} min-h-40 resize-y leading-7 ${errors.message
-                            ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                        ? "border-red-500/60 focus:border-red-500 focus:ring-red-500/10"
+                        : isMessageIncomplete
+                            ? "border-amber-500/50 focus:border-amber-500 focus:ring-amber-500/10"
                             : ""
                         }`}
                 />
 
+                {/* Warning : message incomplet */}
+                {isMessageIncomplete && (
+                    <div
+                        id="message-warning"
+                        role="status"
+                        className="mt-3 flex items-start gap-2.5 rounded-xl border border-amber-500/25 bg-amber-500/10 p-3.5 text-xs text-amber-600 dark:text-amber-400"
+                    >
+                        <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+
+                        <div>
+                            <p className="font-bold">
+                                Votre message semble incomplet.
+                            </p>
+
+                            <p className="mt-1 leading-relaxed">
+                                Veuillez ajouter encore{" "}
+                                <strong>
+                                    {charactersRemaining} caractère
+                                    {charactersRemaining > 1 ? "s" : ""}
+                                </strong>{" "}
+                                minimum avant de pouvoir envoyer votre message.
+                            </p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Erreur de validation */}
                 {errors.message && (
                     <p
                         id="message-error"
@@ -188,8 +275,30 @@ export default function ContactForm() {
                         {errors.message.message}
                     </p>
                 )}
+
+                {/* Compteur de caractères */}
+                <div
+                    id="message-counter"
+                    className="mt-2 flex items-center justify-between gap-3 text-[11px]"
+                >
+                    <span className="text-text-muted">
+                        Minimum : {MIN_MESSAGE_LENGTH} caractères
+                    </span>
+
+                    <span
+                        className={`font-medium tabular-nums ${isMessageIncomplete
+                            ? "text-amber-500"
+                            : messageLength > 0
+                                ? "text-emerald-500"
+                                : "text-text-muted"
+                            }`}
+                    >
+                        {messageLength}/{MAX_MESSAGE_LENGTH}
+                    </span>
+                </div>
             </div>
 
+            {/* Bouton d'envoi */}
             <Button
                 type="submit"
                 size="lg"
@@ -199,7 +308,7 @@ export default function ContactForm() {
                 {isSubmitting ? (
                     <>
                         <LoaderCircle className="h-4 w-4 animate-spin" />
-                        Envoi en cours...
+                        Enregistrement en cours...
                     </>
                 ) : (
                     <>
@@ -209,6 +318,7 @@ export default function ContactForm() {
                 )}
             </Button>
 
+            {/* Retour serveur */}
             <div aria-live="polite" aria-atomic="true">
                 {serverState.success === true && (
                     <div
@@ -218,10 +328,12 @@ export default function ContactForm() {
                         <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
 
                         <div>
-                            <p className="font-bold">Message envoyé avec succès !</p>
+                            <p className="font-bold">
+                                Message reçu avec succès !
+                            </p>
 
                             <p className="mt-1 leading-relaxed">
-                                {serverState.message ?? "Merci pour votre message."}
+                                {serverState.message}
                             </p>
                         </div>
                     </div>
@@ -235,10 +347,12 @@ export default function ContactForm() {
                         <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 
                         <div>
-                            <p className="font-bold">Échec de l&apos;envoi</p>
+                            <p className="font-bold">
+                                Échec de l&apos;envoi
+                            </p>
 
                             <p className="mt-1 leading-relaxed">
-                                {serverState.message ?? "Une erreur est survenue."}
+                                {serverState.message}
                             </p>
                         </div>
                     </div>
@@ -246,8 +360,8 @@ export default function ContactForm() {
             </div>
 
             <p className="text-center text-[11px] leading-relaxed text-text-secondary/70">
-                En envoyant ce formulaire, votre message sera transmis
-                pour traitement de votre demande.
+                Votre message sera d&apos;abord enregistré dans notre
+                système de messagerie afin de garantir son suivi.
             </p>
         </form>
     );

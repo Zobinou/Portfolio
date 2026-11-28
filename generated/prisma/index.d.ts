@@ -68,6 +68,88 @@ export type Testimonial = $Result.DefaultSelection<Prisma.$TestimonialPayload>
  * 
  */
 export type ContactMessage = $Result.DefaultSelection<Prisma.$ContactMessagePayload>
+/**
+ * Model ContactReply
+ * 
+ */
+export type ContactReply = $Result.DefaultSelection<Prisma.$ContactReplyPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const ContactMessageStatus: {
+  NEW: 'NEW',
+  IN_PROGRESS: 'IN_PROGRESS',
+  REPLIED: 'REPLIED'
+};
+
+export type ContactMessageStatus = (typeof ContactMessageStatus)[keyof typeof ContactMessageStatus]
+
+
+export const ContactReplyChannel: {
+  DASHBOARD: 'DASHBOARD',
+  GMAIL: 'GMAIL'
+};
+
+export type ContactReplyChannel = (typeof ContactReplyChannel)[keyof typeof ContactReplyChannel]
+
+
+export const ContactNotificationStatus: {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
+export type ContactNotificationStatus = (typeof ContactNotificationStatus)[keyof typeof ContactNotificationStatus]
+
+
+export const ProjectType: {
+  PERSONNEL: 'PERSONNEL',
+  SCOLAIRE: 'SCOLAIRE',
+  ENTREPRISE: 'ENTREPRISE',
+  OPEN_SOURCE: 'OPEN_SOURCE',
+  INSTITUTIONNEL: 'INSTITUTIONNEL'
+};
+
+export type ProjectType = (typeof ProjectType)[keyof typeof ProjectType]
+
+
+export const ApplicationType: {
+  WEB: 'WEB',
+  MOBILE: 'MOBILE',
+  DESKTOP: 'DESKTOP',
+  API: 'API',
+  LIBRARY: 'LIBRARY',
+  GAME: 'GAME',
+  ERP: 'ERP',
+  DATA: 'DATA',
+  OTHER: 'OTHER'
+};
+
+export type ApplicationType = (typeof ApplicationType)[keyof typeof ApplicationType]
+
+}
+
+export type ContactMessageStatus = $Enums.ContactMessageStatus
+
+export const ContactMessageStatus: typeof $Enums.ContactMessageStatus
+
+export type ContactReplyChannel = $Enums.ContactReplyChannel
+
+export const ContactReplyChannel: typeof $Enums.ContactReplyChannel
+
+export type ContactNotificationStatus = $Enums.ContactNotificationStatus
+
+export const ContactNotificationStatus: typeof $Enums.ContactNotificationStatus
+
+export type ProjectType = $Enums.ProjectType
+
+export const ProjectType: typeof $Enums.ProjectType
+
+export type ApplicationType = $Enums.ApplicationType
+
+export const ApplicationType: typeof $Enums.ApplicationType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -299,6 +381,16 @@ export class PrismaClient<
     * ```
     */
   get contactMessage(): Prisma.ContactMessageDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.contactReply`: Exposes CRUD operations for the **ContactReply** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ContactReplies
+    * const contactReplies = await prisma.contactReply.findMany()
+    * ```
+    */
+  get contactReply(): Prisma.ContactReplyDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -756,7 +848,8 @@ export namespace Prisma {
     Education: 'Education',
     Experience: 'Experience',
     Testimonial: 'Testimonial',
-    ContactMessage: 'ContactMessage'
+    ContactMessage: 'ContactMessage',
+    ContactReply: 'ContactReply'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -772,7 +865,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "session" | "account" | "verification" | "project" | "skill" | "quality" | "education" | "experience" | "testimonial" | "contactMessage"
+      modelProps: "user" | "session" | "account" | "verification" | "project" | "skill" | "quality" | "education" | "experience" | "testimonial" | "contactMessage" | "contactReply"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1590,6 +1683,80 @@ export namespace Prisma {
           }
         }
       }
+      ContactReply: {
+        payload: Prisma.$ContactReplyPayload<ExtArgs>
+        fields: Prisma.ContactReplyFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ContactReplyFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ContactReplyFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>
+          }
+          findFirst: {
+            args: Prisma.ContactReplyFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ContactReplyFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>
+          }
+          findMany: {
+            args: Prisma.ContactReplyFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>[]
+          }
+          create: {
+            args: Prisma.ContactReplyCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>
+          }
+          createMany: {
+            args: Prisma.ContactReplyCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ContactReplyCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>[]
+          }
+          delete: {
+            args: Prisma.ContactReplyDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>
+          }
+          update: {
+            args: Prisma.ContactReplyUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>
+          }
+          deleteMany: {
+            args: Prisma.ContactReplyDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ContactReplyUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ContactReplyUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>[]
+          }
+          upsert: {
+            args: Prisma.ContactReplyUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ContactReplyPayload>
+          }
+          aggregate: {
+            args: Prisma.ContactReplyAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateContactReply>
+          }
+          groupBy: {
+            args: Prisma.ContactReplyGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ContactReplyGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ContactReplyCountArgs<ExtArgs>
+            result: $Utils.Optional<ContactReplyCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1724,6 +1891,7 @@ export namespace Prisma {
     experience?: ExperienceOmit
     testimonial?: TestimonialOmit
     contactMessage?: ContactMessageOmit
+    contactReply?: ContactReplyOmit
   }
 
   /* Types for Logging */
@@ -1836,6 +2004,37 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountAccountsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AccountWhereInput
+  }
+
+
+  /**
+   * Count Type ContactMessageCountOutputType
+   */
+
+  export type ContactMessageCountOutputType = {
+    replies: number
+  }
+
+  export type ContactMessageCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replies?: boolean | ContactMessageCountOutputTypeCountRepliesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ContactMessageCountOutputType without action
+   */
+  export type ContactMessageCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactMessageCountOutputType
+     */
+    select?: ContactMessageCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ContactMessageCountOutputType without action
+   */
+  export type ContactMessageCountOutputTypeCountRepliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContactReplyWhereInput
   }
 
 
@@ -6283,6 +6482,8 @@ export namespace Prisma {
     descriptionLongue: string | null
     image: string | null
     lien: string | null
+    typeProjet: $Enums.ProjectType | null
+    typeApplication: $Enums.ApplicationType | null
     featured: boolean | null
     order: number | null
     createdAt: Date | null
@@ -6298,6 +6499,8 @@ export namespace Prisma {
     descriptionLongue: string | null
     image: string | null
     lien: string | null
+    typeProjet: $Enums.ProjectType | null
+    typeApplication: $Enums.ApplicationType | null
     featured: boolean | null
     order: number | null
     createdAt: Date | null
@@ -6313,6 +6516,8 @@ export namespace Prisma {
     descriptionLongue: number
     image: number
     lien: number
+    typeProjet: number
+    typeApplication: number
     technologies: number
     drivePhotos: number
     featured: number
@@ -6340,6 +6545,8 @@ export namespace Prisma {
     descriptionLongue?: true
     image?: true
     lien?: true
+    typeProjet?: true
+    typeApplication?: true
     featured?: true
     order?: true
     createdAt?: true
@@ -6355,6 +6562,8 @@ export namespace Prisma {
     descriptionLongue?: true
     image?: true
     lien?: true
+    typeProjet?: true
+    typeApplication?: true
     featured?: true
     order?: true
     createdAt?: true
@@ -6370,6 +6579,8 @@ export namespace Prisma {
     descriptionLongue?: true
     image?: true
     lien?: true
+    typeProjet?: true
+    typeApplication?: true
     technologies?: true
     drivePhotos?: true
     featured?: true
@@ -6474,6 +6685,8 @@ export namespace Prisma {
     descriptionLongue: string
     image: string
     lien: string
+    typeProjet: $Enums.ProjectType
+    typeApplication: $Enums.ApplicationType
     technologies: string[]
     drivePhotos: string[]
     featured: boolean
@@ -6510,6 +6723,8 @@ export namespace Prisma {
     descriptionLongue?: boolean
     image?: boolean
     lien?: boolean
+    typeProjet?: boolean
+    typeApplication?: boolean
     technologies?: boolean
     drivePhotos?: boolean
     featured?: boolean
@@ -6527,6 +6742,8 @@ export namespace Prisma {
     descriptionLongue?: boolean
     image?: boolean
     lien?: boolean
+    typeProjet?: boolean
+    typeApplication?: boolean
     technologies?: boolean
     drivePhotos?: boolean
     featured?: boolean
@@ -6544,6 +6761,8 @@ export namespace Prisma {
     descriptionLongue?: boolean
     image?: boolean
     lien?: boolean
+    typeProjet?: boolean
+    typeApplication?: boolean
     technologies?: boolean
     drivePhotos?: boolean
     featured?: boolean
@@ -6561,6 +6780,8 @@ export namespace Prisma {
     descriptionLongue?: boolean
     image?: boolean
     lien?: boolean
+    typeProjet?: boolean
+    typeApplication?: boolean
     technologies?: boolean
     drivePhotos?: boolean
     featured?: boolean
@@ -6569,7 +6790,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "numero" | "titre" | "description" | "descriptionLongue" | "image" | "lien" | "technologies" | "drivePhotos" | "featured" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
+  export type ProjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "slug" | "numero" | "titre" | "description" | "descriptionLongue" | "image" | "lien" | "typeProjet" | "typeApplication" | "technologies" | "drivePhotos" | "featured" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["project"]>
 
   export type $ProjectPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Project"
@@ -6583,6 +6804,8 @@ export namespace Prisma {
       descriptionLongue: string
       image: string
       lien: string
+      typeProjet: $Enums.ProjectType
+      typeApplication: $Enums.ApplicationType
       technologies: string[]
       drivePhotos: string[]
       featured: boolean
@@ -7020,6 +7243,8 @@ export namespace Prisma {
     readonly descriptionLongue: FieldRef<"Project", 'String'>
     readonly image: FieldRef<"Project", 'String'>
     readonly lien: FieldRef<"Project", 'String'>
+    readonly typeProjet: FieldRef<"Project", 'ProjectType'>
+    readonly typeApplication: FieldRef<"Project", 'ApplicationType'>
     readonly technologies: FieldRef<"Project", 'String[]'>
     readonly drivePhotos: FieldRef<"Project", 'String[]'>
     readonly featured: FieldRef<"Project", 'Boolean'>
@@ -12626,7 +12851,14 @@ export namespace Prisma {
     email: string | null
     message: string | null
     read: boolean | null
+    status: $Enums.ContactMessageStatus | null
+    emailNotificationStatus: $Enums.ContactNotificationStatus | null
+    gmailThreadId: string | null
+    gmailNotificationId: string | null
+    gmailRfcMessageId: string | null
+    gmailSubject: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ContactMessageMaxAggregateOutputType = {
@@ -12635,7 +12867,14 @@ export namespace Prisma {
     email: string | null
     message: string | null
     read: boolean | null
+    status: $Enums.ContactMessageStatus | null
+    emailNotificationStatus: $Enums.ContactNotificationStatus | null
+    gmailThreadId: string | null
+    gmailNotificationId: string | null
+    gmailRfcMessageId: string | null
+    gmailSubject: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ContactMessageCountAggregateOutputType = {
@@ -12644,7 +12883,14 @@ export namespace Prisma {
     email: number
     message: number
     read: number
+    status: number
+    emailNotificationStatus: number
+    gmailThreadId: number
+    gmailNotificationId: number
+    gmailRfcMessageId: number
+    gmailSubject: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -12655,7 +12901,14 @@ export namespace Prisma {
     email?: true
     message?: true
     read?: true
+    status?: true
+    emailNotificationStatus?: true
+    gmailThreadId?: true
+    gmailNotificationId?: true
+    gmailRfcMessageId?: true
+    gmailSubject?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ContactMessageMaxAggregateInputType = {
@@ -12664,7 +12917,14 @@ export namespace Prisma {
     email?: true
     message?: true
     read?: true
+    status?: true
+    emailNotificationStatus?: true
+    gmailThreadId?: true
+    gmailNotificationId?: true
+    gmailRfcMessageId?: true
+    gmailSubject?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ContactMessageCountAggregateInputType = {
@@ -12673,7 +12933,14 @@ export namespace Prisma {
     email?: true
     message?: true
     read?: true
+    status?: true
+    emailNotificationStatus?: true
+    gmailThreadId?: true
+    gmailNotificationId?: true
+    gmailRfcMessageId?: true
+    gmailSubject?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -12755,7 +13022,14 @@ export namespace Prisma {
     email: string
     message: string
     read: boolean
+    status: $Enums.ContactMessageStatus
+    emailNotificationStatus: $Enums.ContactNotificationStatus
+    gmailThreadId: string | null
+    gmailNotificationId: string | null
+    gmailRfcMessageId: string | null
+    gmailSubject: string | null
     createdAt: Date
+    updatedAt: Date
     _count: ContactMessageCountAggregateOutputType | null
     _min: ContactMessageMinAggregateOutputType | null
     _max: ContactMessageMaxAggregateOutputType | null
@@ -12781,7 +13055,16 @@ export namespace Prisma {
     email?: boolean
     message?: boolean
     read?: boolean
+    status?: boolean
+    emailNotificationStatus?: boolean
+    gmailThreadId?: boolean
+    gmailNotificationId?: boolean
+    gmailRfcMessageId?: boolean
+    gmailSubject?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
+    replies?: boolean | ContactMessage$repliesArgs<ExtArgs>
+    _count?: boolean | ContactMessageCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["contactMessage"]>
 
   export type ContactMessageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12790,7 +13073,14 @@ export namespace Prisma {
     email?: boolean
     message?: boolean
     read?: boolean
+    status?: boolean
+    emailNotificationStatus?: boolean
+    gmailThreadId?: boolean
+    gmailNotificationId?: boolean
+    gmailRfcMessageId?: boolean
+    gmailSubject?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["contactMessage"]>
 
   export type ContactMessageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -12799,7 +13089,14 @@ export namespace Prisma {
     email?: boolean
     message?: boolean
     read?: boolean
+    status?: boolean
+    emailNotificationStatus?: boolean
+    gmailThreadId?: boolean
+    gmailNotificationId?: boolean
+    gmailRfcMessageId?: boolean
+    gmailSubject?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }, ExtArgs["result"]["contactMessage"]>
 
   export type ContactMessageSelectScalar = {
@@ -12808,21 +13105,43 @@ export namespace Prisma {
     email?: boolean
     message?: boolean
     read?: boolean
+    status?: boolean
+    emailNotificationStatus?: boolean
+    gmailThreadId?: boolean
+    gmailNotificationId?: boolean
+    gmailRfcMessageId?: boolean
+    gmailSubject?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ContactMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "message" | "read" | "createdAt", ExtArgs["result"]["contactMessage"]>
+  export type ContactMessageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "message" | "read" | "status" | "emailNotificationStatus" | "gmailThreadId" | "gmailNotificationId" | "gmailRfcMessageId" | "gmailSubject" | "createdAt" | "updatedAt", ExtArgs["result"]["contactMessage"]>
+  export type ContactMessageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    replies?: boolean | ContactMessage$repliesArgs<ExtArgs>
+    _count?: boolean | ContactMessageCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ContactMessageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ContactMessageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $ContactMessagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "ContactMessage"
-    objects: {}
+    objects: {
+      replies: Prisma.$ContactReplyPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       email: string
       message: string
       read: boolean
+      status: $Enums.ContactMessageStatus
+      emailNotificationStatus: $Enums.ContactNotificationStatus
+      gmailThreadId: string | null
+      gmailNotificationId: string | null
+      gmailRfcMessageId: string | null
+      gmailSubject: string | null
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["contactMessage"]>
     composites: {}
   }
@@ -13217,6 +13536,7 @@ export namespace Prisma {
    */
   export interface Prisma__ContactMessageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    replies<T extends ContactMessage$repliesArgs<ExtArgs> = {}>(args?: Subset<T, ContactMessage$repliesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13251,7 +13571,14 @@ export namespace Prisma {
     readonly email: FieldRef<"ContactMessage", 'String'>
     readonly message: FieldRef<"ContactMessage", 'String'>
     readonly read: FieldRef<"ContactMessage", 'Boolean'>
+    readonly status: FieldRef<"ContactMessage", 'ContactMessageStatus'>
+    readonly emailNotificationStatus: FieldRef<"ContactMessage", 'ContactNotificationStatus'>
+    readonly gmailThreadId: FieldRef<"ContactMessage", 'String'>
+    readonly gmailNotificationId: FieldRef<"ContactMessage", 'String'>
+    readonly gmailRfcMessageId: FieldRef<"ContactMessage", 'String'>
+    readonly gmailSubject: FieldRef<"ContactMessage", 'String'>
     readonly createdAt: FieldRef<"ContactMessage", 'DateTime'>
+    readonly updatedAt: FieldRef<"ContactMessage", 'DateTime'>
   }
     
 
@@ -13268,6 +13595,10 @@ export namespace Prisma {
      * Omit specific fields from the ContactMessage
      */
     omit?: ContactMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
     /**
      * Filter, which ContactMessage to fetch.
      */
@@ -13287,6 +13618,10 @@ export namespace Prisma {
      */
     omit?: ContactMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
+    /**
      * Filter, which ContactMessage to fetch.
      */
     where: ContactMessageWhereUniqueInput
@@ -13304,6 +13639,10 @@ export namespace Prisma {
      * Omit specific fields from the ContactMessage
      */
     omit?: ContactMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
     /**
      * Filter, which ContactMessage to fetch.
      */
@@ -13353,6 +13692,10 @@ export namespace Prisma {
      */
     omit?: ContactMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
+    /**
      * Filter, which ContactMessage to fetch.
      */
     where?: ContactMessageWhereInput
@@ -13400,6 +13743,10 @@ export namespace Prisma {
      * Omit specific fields from the ContactMessage
      */
     omit?: ContactMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
     /**
      * Filter, which ContactMessages to fetch.
      */
@@ -13449,6 +13796,10 @@ export namespace Prisma {
      */
     omit?: ContactMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
+    /**
      * The data needed to create a ContactMessage.
      */
     data: XOR<ContactMessageCreateInput, ContactMessageUncheckedCreateInput>
@@ -13496,6 +13847,10 @@ export namespace Prisma {
      * Omit specific fields from the ContactMessage
      */
     omit?: ContactMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
     /**
      * The data needed to update a ContactMessage.
      */
@@ -13563,6 +13918,10 @@ export namespace Prisma {
      */
     omit?: ContactMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
+    /**
      * The filter to search for the ContactMessage to update in case it exists.
      */
     where: ContactMessageWhereUniqueInput
@@ -13589,6 +13948,10 @@ export namespace Prisma {
      */
     omit?: ContactMessageOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
+    /**
      * Filter which ContactMessage to delete.
      */
     where: ContactMessageWhereUniqueInput
@@ -13609,6 +13972,30 @@ export namespace Prisma {
   }
 
   /**
+   * ContactMessage.replies
+   */
+  export type ContactMessage$repliesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    where?: ContactReplyWhereInput
+    orderBy?: ContactReplyOrderByWithRelationInput | ContactReplyOrderByWithRelationInput[]
+    cursor?: ContactReplyWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ContactReplyScalarFieldEnum | ContactReplyScalarFieldEnum[]
+  }
+
+  /**
    * ContactMessage without action
    */
   export type ContactMessageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -13620,6 +14007,1099 @@ export namespace Prisma {
      * Omit specific fields from the ContactMessage
      */
     omit?: ContactMessageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactMessageInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model ContactReply
+   */
+
+  export type AggregateContactReply = {
+    _count: ContactReplyCountAggregateOutputType | null
+    _min: ContactReplyMinAggregateOutputType | null
+    _max: ContactReplyMaxAggregateOutputType | null
+  }
+
+  export type ContactReplyMinAggregateOutputType = {
+    id: string | null
+    contactMessageId: string | null
+    body: string | null
+    channel: $Enums.ContactReplyChannel | null
+    gmailMessageId: string | null
+    gmailRfcMessageId: string | null
+    createdAt: Date | null
+  }
+
+  export type ContactReplyMaxAggregateOutputType = {
+    id: string | null
+    contactMessageId: string | null
+    body: string | null
+    channel: $Enums.ContactReplyChannel | null
+    gmailMessageId: string | null
+    gmailRfcMessageId: string | null
+    createdAt: Date | null
+  }
+
+  export type ContactReplyCountAggregateOutputType = {
+    id: number
+    contactMessageId: number
+    body: number
+    channel: number
+    gmailMessageId: number
+    gmailRfcMessageId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ContactReplyMinAggregateInputType = {
+    id?: true
+    contactMessageId?: true
+    body?: true
+    channel?: true
+    gmailMessageId?: true
+    gmailRfcMessageId?: true
+    createdAt?: true
+  }
+
+  export type ContactReplyMaxAggregateInputType = {
+    id?: true
+    contactMessageId?: true
+    body?: true
+    channel?: true
+    gmailMessageId?: true
+    gmailRfcMessageId?: true
+    createdAt?: true
+  }
+
+  export type ContactReplyCountAggregateInputType = {
+    id?: true
+    contactMessageId?: true
+    body?: true
+    channel?: true
+    gmailMessageId?: true
+    gmailRfcMessageId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ContactReplyAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContactReply to aggregate.
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactReplies to fetch.
+     */
+    orderBy?: ContactReplyOrderByWithRelationInput | ContactReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ContactReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ContactReplies
+    **/
+    _count?: true | ContactReplyCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ContactReplyMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ContactReplyMaxAggregateInputType
+  }
+
+  export type GetContactReplyAggregateType<T extends ContactReplyAggregateArgs> = {
+        [P in keyof T & keyof AggregateContactReply]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateContactReply[P]>
+      : GetScalarType<T[P], AggregateContactReply[P]>
+  }
+
+
+
+
+  export type ContactReplyGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ContactReplyWhereInput
+    orderBy?: ContactReplyOrderByWithAggregationInput | ContactReplyOrderByWithAggregationInput[]
+    by: ContactReplyScalarFieldEnum[] | ContactReplyScalarFieldEnum
+    having?: ContactReplyScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ContactReplyCountAggregateInputType | true
+    _min?: ContactReplyMinAggregateInputType
+    _max?: ContactReplyMaxAggregateInputType
+  }
+
+  export type ContactReplyGroupByOutputType = {
+    id: string
+    contactMessageId: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId: string | null
+    gmailRfcMessageId: string | null
+    createdAt: Date
+    _count: ContactReplyCountAggregateOutputType | null
+    _min: ContactReplyMinAggregateOutputType | null
+    _max: ContactReplyMaxAggregateOutputType | null
+  }
+
+  type GetContactReplyGroupByPayload<T extends ContactReplyGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ContactReplyGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ContactReplyGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ContactReplyGroupByOutputType[P]>
+            : GetScalarType<T[P], ContactReplyGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ContactReplySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contactMessageId?: boolean
+    body?: boolean
+    channel?: boolean
+    gmailMessageId?: boolean
+    gmailRfcMessageId?: boolean
+    createdAt?: boolean
+    contactMessage?: boolean | ContactMessageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contactReply"]>
+
+  export type ContactReplySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contactMessageId?: boolean
+    body?: boolean
+    channel?: boolean
+    gmailMessageId?: boolean
+    gmailRfcMessageId?: boolean
+    createdAt?: boolean
+    contactMessage?: boolean | ContactMessageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contactReply"]>
+
+  export type ContactReplySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    contactMessageId?: boolean
+    body?: boolean
+    channel?: boolean
+    gmailMessageId?: boolean
+    gmailRfcMessageId?: boolean
+    createdAt?: boolean
+    contactMessage?: boolean | ContactMessageDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["contactReply"]>
+
+  export type ContactReplySelectScalar = {
+    id?: boolean
+    contactMessageId?: boolean
+    body?: boolean
+    channel?: boolean
+    gmailMessageId?: boolean
+    gmailRfcMessageId?: boolean
+    createdAt?: boolean
+  }
+
+  export type ContactReplyOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "contactMessageId" | "body" | "channel" | "gmailMessageId" | "gmailRfcMessageId" | "createdAt", ExtArgs["result"]["contactReply"]>
+  export type ContactReplyInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contactMessage?: boolean | ContactMessageDefaultArgs<ExtArgs>
+  }
+  export type ContactReplyIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contactMessage?: boolean | ContactMessageDefaultArgs<ExtArgs>
+  }
+  export type ContactReplyIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    contactMessage?: boolean | ContactMessageDefaultArgs<ExtArgs>
+  }
+
+  export type $ContactReplyPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ContactReply"
+    objects: {
+      contactMessage: Prisma.$ContactMessagePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      contactMessageId: string
+      body: string
+      channel: $Enums.ContactReplyChannel
+      gmailMessageId: string | null
+      gmailRfcMessageId: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["contactReply"]>
+    composites: {}
+  }
+
+  type ContactReplyGetPayload<S extends boolean | null | undefined | ContactReplyDefaultArgs> = $Result.GetResult<Prisma.$ContactReplyPayload, S>
+
+  type ContactReplyCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ContactReplyFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ContactReplyCountAggregateInputType | true
+    }
+
+  export interface ContactReplyDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ContactReply'], meta: { name: 'ContactReply' } }
+    /**
+     * Find zero or one ContactReply that matches the filter.
+     * @param {ContactReplyFindUniqueArgs} args - Arguments to find a ContactReply
+     * @example
+     * // Get one ContactReply
+     * const contactReply = await prisma.contactReply.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ContactReplyFindUniqueArgs>(args: SelectSubset<T, ContactReplyFindUniqueArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ContactReply that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ContactReplyFindUniqueOrThrowArgs} args - Arguments to find a ContactReply
+     * @example
+     * // Get one ContactReply
+     * const contactReply = await prisma.contactReply.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ContactReplyFindUniqueOrThrowArgs>(args: SelectSubset<T, ContactReplyFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContactReply that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyFindFirstArgs} args - Arguments to find a ContactReply
+     * @example
+     * // Get one ContactReply
+     * const contactReply = await prisma.contactReply.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ContactReplyFindFirstArgs>(args?: SelectSubset<T, ContactReplyFindFirstArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ContactReply that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyFindFirstOrThrowArgs} args - Arguments to find a ContactReply
+     * @example
+     * // Get one ContactReply
+     * const contactReply = await prisma.contactReply.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ContactReplyFindFirstOrThrowArgs>(args?: SelectSubset<T, ContactReplyFindFirstOrThrowArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ContactReplies that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ContactReplies
+     * const contactReplies = await prisma.contactReply.findMany()
+     * 
+     * // Get first 10 ContactReplies
+     * const contactReplies = await prisma.contactReply.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const contactReplyWithIdOnly = await prisma.contactReply.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ContactReplyFindManyArgs>(args?: SelectSubset<T, ContactReplyFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ContactReply.
+     * @param {ContactReplyCreateArgs} args - Arguments to create a ContactReply.
+     * @example
+     * // Create one ContactReply
+     * const ContactReply = await prisma.contactReply.create({
+     *   data: {
+     *     // ... data to create a ContactReply
+     *   }
+     * })
+     * 
+     */
+    create<T extends ContactReplyCreateArgs>(args: SelectSubset<T, ContactReplyCreateArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ContactReplies.
+     * @param {ContactReplyCreateManyArgs} args - Arguments to create many ContactReplies.
+     * @example
+     * // Create many ContactReplies
+     * const contactReply = await prisma.contactReply.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ContactReplyCreateManyArgs>(args?: SelectSubset<T, ContactReplyCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ContactReplies and returns the data saved in the database.
+     * @param {ContactReplyCreateManyAndReturnArgs} args - Arguments to create many ContactReplies.
+     * @example
+     * // Create many ContactReplies
+     * const contactReply = await prisma.contactReply.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ContactReplies and only return the `id`
+     * const contactReplyWithIdOnly = await prisma.contactReply.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ContactReplyCreateManyAndReturnArgs>(args?: SelectSubset<T, ContactReplyCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ContactReply.
+     * @param {ContactReplyDeleteArgs} args - Arguments to delete one ContactReply.
+     * @example
+     * // Delete one ContactReply
+     * const ContactReply = await prisma.contactReply.delete({
+     *   where: {
+     *     // ... filter to delete one ContactReply
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ContactReplyDeleteArgs>(args: SelectSubset<T, ContactReplyDeleteArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ContactReply.
+     * @param {ContactReplyUpdateArgs} args - Arguments to update one ContactReply.
+     * @example
+     * // Update one ContactReply
+     * const contactReply = await prisma.contactReply.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ContactReplyUpdateArgs>(args: SelectSubset<T, ContactReplyUpdateArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ContactReplies.
+     * @param {ContactReplyDeleteManyArgs} args - Arguments to filter ContactReplies to delete.
+     * @example
+     * // Delete a few ContactReplies
+     * const { count } = await prisma.contactReply.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ContactReplyDeleteManyArgs>(args?: SelectSubset<T, ContactReplyDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ContactReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ContactReplies
+     * const contactReply = await prisma.contactReply.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ContactReplyUpdateManyArgs>(args: SelectSubset<T, ContactReplyUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ContactReplies and returns the data updated in the database.
+     * @param {ContactReplyUpdateManyAndReturnArgs} args - Arguments to update many ContactReplies.
+     * @example
+     * // Update many ContactReplies
+     * const contactReply = await prisma.contactReply.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ContactReplies and only return the `id`
+     * const contactReplyWithIdOnly = await prisma.contactReply.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ContactReplyUpdateManyAndReturnArgs>(args: SelectSubset<T, ContactReplyUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ContactReply.
+     * @param {ContactReplyUpsertArgs} args - Arguments to update or create a ContactReply.
+     * @example
+     * // Update or create a ContactReply
+     * const contactReply = await prisma.contactReply.upsert({
+     *   create: {
+     *     // ... data to create a ContactReply
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ContactReply we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ContactReplyUpsertArgs>(args: SelectSubset<T, ContactReplyUpsertArgs<ExtArgs>>): Prisma__ContactReplyClient<$Result.GetResult<Prisma.$ContactReplyPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ContactReplies.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyCountArgs} args - Arguments to filter ContactReplies to count.
+     * @example
+     * // Count the number of ContactReplies
+     * const count = await prisma.contactReply.count({
+     *   where: {
+     *     // ... the filter for the ContactReplies we want to count
+     *   }
+     * })
+    **/
+    count<T extends ContactReplyCountArgs>(
+      args?: Subset<T, ContactReplyCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ContactReplyCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ContactReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ContactReplyAggregateArgs>(args: Subset<T, ContactReplyAggregateArgs>): Prisma.PrismaPromise<GetContactReplyAggregateType<T>>
+
+    /**
+     * Group by ContactReply.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ContactReplyGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ContactReplyGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ContactReplyGroupByArgs['orderBy'] }
+        : { orderBy?: ContactReplyGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ContactReplyGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetContactReplyGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ContactReply model
+   */
+  readonly fields: ContactReplyFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ContactReply.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ContactReplyClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    contactMessage<T extends ContactMessageDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ContactMessageDefaultArgs<ExtArgs>>): Prisma__ContactMessageClient<$Result.GetResult<Prisma.$ContactMessagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ContactReply model
+   */
+  interface ContactReplyFieldRefs {
+    readonly id: FieldRef<"ContactReply", 'String'>
+    readonly contactMessageId: FieldRef<"ContactReply", 'String'>
+    readonly body: FieldRef<"ContactReply", 'String'>
+    readonly channel: FieldRef<"ContactReply", 'ContactReplyChannel'>
+    readonly gmailMessageId: FieldRef<"ContactReply", 'String'>
+    readonly gmailRfcMessageId: FieldRef<"ContactReply", 'String'>
+    readonly createdAt: FieldRef<"ContactReply", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ContactReply findUnique
+   */
+  export type ContactReplyFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which ContactReply to fetch.
+     */
+    where: ContactReplyWhereUniqueInput
+  }
+
+  /**
+   * ContactReply findUniqueOrThrow
+   */
+  export type ContactReplyFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which ContactReply to fetch.
+     */
+    where: ContactReplyWhereUniqueInput
+  }
+
+  /**
+   * ContactReply findFirst
+   */
+  export type ContactReplyFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which ContactReply to fetch.
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactReplies to fetch.
+     */
+    orderBy?: ContactReplyOrderByWithRelationInput | ContactReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ContactReplies.
+     */
+    cursor?: ContactReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContactReplies.
+     */
+    distinct?: ContactReplyScalarFieldEnum | ContactReplyScalarFieldEnum[]
+  }
+
+  /**
+   * ContactReply findFirstOrThrow
+   */
+  export type ContactReplyFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which ContactReply to fetch.
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactReplies to fetch.
+     */
+    orderBy?: ContactReplyOrderByWithRelationInput | ContactReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ContactReplies.
+     */
+    cursor?: ContactReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContactReplies.
+     */
+    distinct?: ContactReplyScalarFieldEnum | ContactReplyScalarFieldEnum[]
+  }
+
+  /**
+   * ContactReply findMany
+   */
+  export type ContactReplyFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * Filter, which ContactReplies to fetch.
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ContactReplies to fetch.
+     */
+    orderBy?: ContactReplyOrderByWithRelationInput | ContactReplyOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ContactReplies.
+     */
+    cursor?: ContactReplyWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ContactReplies from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ContactReplies.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ContactReplies.
+     */
+    distinct?: ContactReplyScalarFieldEnum | ContactReplyScalarFieldEnum[]
+  }
+
+  /**
+   * ContactReply create
+   */
+  export type ContactReplyCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ContactReply.
+     */
+    data: XOR<ContactReplyCreateInput, ContactReplyUncheckedCreateInput>
+  }
+
+  /**
+   * ContactReply createMany
+   */
+  export type ContactReplyCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ContactReplies.
+     */
+    data: ContactReplyCreateManyInput | ContactReplyCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ContactReply createManyAndReturn
+   */
+  export type ContactReplyCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * The data used to create many ContactReplies.
+     */
+    data: ContactReplyCreateManyInput | ContactReplyCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ContactReply update
+   */
+  export type ContactReplyUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ContactReply.
+     */
+    data: XOR<ContactReplyUpdateInput, ContactReplyUncheckedUpdateInput>
+    /**
+     * Choose, which ContactReply to update.
+     */
+    where: ContactReplyWhereUniqueInput
+  }
+
+  /**
+   * ContactReply updateMany
+   */
+  export type ContactReplyUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ContactReplies.
+     */
+    data: XOR<ContactReplyUpdateManyMutationInput, ContactReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which ContactReplies to update
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * Limit how many ContactReplies to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactReply updateManyAndReturn
+   */
+  export type ContactReplyUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * The data used to update ContactReplies.
+     */
+    data: XOR<ContactReplyUpdateManyMutationInput, ContactReplyUncheckedUpdateManyInput>
+    /**
+     * Filter which ContactReplies to update
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * Limit how many ContactReplies to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ContactReply upsert
+   */
+  export type ContactReplyUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ContactReply to update in case it exists.
+     */
+    where: ContactReplyWhereUniqueInput
+    /**
+     * In case the ContactReply found by the `where` argument doesn't exist, create a new ContactReply with this data.
+     */
+    create: XOR<ContactReplyCreateInput, ContactReplyUncheckedCreateInput>
+    /**
+     * In case the ContactReply was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ContactReplyUpdateInput, ContactReplyUncheckedUpdateInput>
+  }
+
+  /**
+   * ContactReply delete
+   */
+  export type ContactReplyDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
+    /**
+     * Filter which ContactReply to delete.
+     */
+    where: ContactReplyWhereUniqueInput
+  }
+
+  /**
+   * ContactReply deleteMany
+   */
+  export type ContactReplyDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ContactReplies to delete
+     */
+    where?: ContactReplyWhereInput
+    /**
+     * Limit how many ContactReplies to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ContactReply without action
+   */
+  export type ContactReplyDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ContactReply
+     */
+    select?: ContactReplySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ContactReply
+     */
+    omit?: ContactReplyOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ContactReplyInclude<ExtArgs> | null
   }
 
 
@@ -13704,6 +15184,8 @@ export namespace Prisma {
     descriptionLongue: 'descriptionLongue',
     image: 'image',
     lien: 'lien',
+    typeProjet: 'typeProjet',
+    typeApplication: 'typeApplication',
     technologies: 'technologies',
     drivePhotos: 'drivePhotos',
     featured: 'featured',
@@ -13779,10 +15261,30 @@ export namespace Prisma {
     email: 'email',
     message: 'message',
     read: 'read',
-    createdAt: 'createdAt'
+    status: 'status',
+    emailNotificationStatus: 'emailNotificationStatus',
+    gmailThreadId: 'gmailThreadId',
+    gmailNotificationId: 'gmailNotificationId',
+    gmailRfcMessageId: 'gmailRfcMessageId',
+    gmailSubject: 'gmailSubject',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ContactMessageScalarFieldEnum = (typeof ContactMessageScalarFieldEnum)[keyof typeof ContactMessageScalarFieldEnum]
+
+
+  export const ContactReplyScalarFieldEnum: {
+    id: 'id',
+    contactMessageId: 'contactMessageId',
+    body: 'body',
+    channel: 'channel',
+    gmailMessageId: 'gmailMessageId',
+    gmailRfcMessageId: 'gmailRfcMessageId',
+    createdAt: 'createdAt'
+  };
+
+  export type ContactReplyScalarFieldEnum = (typeof ContactReplyScalarFieldEnum)[keyof typeof ContactReplyScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -13850,6 +15352,34 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'ProjectType'
+   */
+  export type EnumProjectTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ProjectType[]'
+   */
+  export type ListEnumProjectTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProjectType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApplicationType'
+   */
+  export type EnumApplicationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApplicationType'>
+    
+
+
+  /**
+   * Reference to a field of type 'ApplicationType[]'
+   */
+  export type ListEnumApplicationTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ApplicationType[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
@@ -13860,6 +15390,48 @@ export namespace Prisma {
    * Reference to a field of type 'Int[]'
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactMessageStatus'
+   */
+  export type EnumContactMessageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactMessageStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactMessageStatus[]'
+   */
+  export type ListEnumContactMessageStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactMessageStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactNotificationStatus'
+   */
+  export type EnumContactNotificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactNotificationStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactNotificationStatus[]'
+   */
+  export type ListEnumContactNotificationStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactNotificationStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactReplyChannel'
+   */
+  export type EnumContactReplyChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactReplyChannel'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContactReplyChannel[]'
+   */
+  export type ListEnumContactReplyChannelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContactReplyChannel[]'>
     
 
 
@@ -14182,6 +15754,8 @@ export namespace Prisma {
     descriptionLongue?: StringFilter<"Project"> | string
     image?: StringFilter<"Project"> | string
     lien?: StringFilter<"Project"> | string
+    typeProjet?: EnumProjectTypeFilter<"Project"> | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeFilter<"Project"> | $Enums.ApplicationType
     technologies?: StringNullableListFilter<"Project">
     drivePhotos?: StringNullableListFilter<"Project">
     featured?: BoolFilter<"Project"> | boolean
@@ -14199,6 +15773,8 @@ export namespace Prisma {
     descriptionLongue?: SortOrder
     image?: SortOrder
     lien?: SortOrder
+    typeProjet?: SortOrder
+    typeApplication?: SortOrder
     technologies?: SortOrder
     drivePhotos?: SortOrder
     featured?: SortOrder
@@ -14219,6 +15795,8 @@ export namespace Prisma {
     descriptionLongue?: StringFilter<"Project"> | string
     image?: StringFilter<"Project"> | string
     lien?: StringFilter<"Project"> | string
+    typeProjet?: EnumProjectTypeFilter<"Project"> | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeFilter<"Project"> | $Enums.ApplicationType
     technologies?: StringNullableListFilter<"Project">
     drivePhotos?: StringNullableListFilter<"Project">
     featured?: BoolFilter<"Project"> | boolean
@@ -14236,6 +15814,8 @@ export namespace Prisma {
     descriptionLongue?: SortOrder
     image?: SortOrder
     lien?: SortOrder
+    typeProjet?: SortOrder
+    typeApplication?: SortOrder
     technologies?: SortOrder
     drivePhotos?: SortOrder
     featured?: SortOrder
@@ -14261,6 +15841,8 @@ export namespace Prisma {
     descriptionLongue?: StringWithAggregatesFilter<"Project"> | string
     image?: StringWithAggregatesFilter<"Project"> | string
     lien?: StringWithAggregatesFilter<"Project"> | string
+    typeProjet?: EnumProjectTypeWithAggregatesFilter<"Project"> | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeWithAggregatesFilter<"Project"> | $Enums.ApplicationType
     technologies?: StringNullableListFilter<"Project">
     drivePhotos?: StringNullableListFilter<"Project">
     featured?: BoolWithAggregatesFilter<"Project"> | boolean
@@ -14563,7 +16145,15 @@ export namespace Prisma {
     email?: StringFilter<"ContactMessage"> | string
     message?: StringFilter<"ContactMessage"> | string
     read?: BoolFilter<"ContactMessage"> | boolean
+    status?: EnumContactMessageStatusFilter<"ContactMessage"> | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFilter<"ContactMessage"> | $Enums.ContactNotificationStatus
+    gmailThreadId?: StringNullableFilter<"ContactMessage"> | string | null
+    gmailNotificationId?: StringNullableFilter<"ContactMessage"> | string | null
+    gmailRfcMessageId?: StringNullableFilter<"ContactMessage"> | string | null
+    gmailSubject?: StringNullableFilter<"ContactMessage"> | string | null
     createdAt?: DateTimeFilter<"ContactMessage"> | Date | string
+    updatedAt?: DateTimeFilter<"ContactMessage"> | Date | string
+    replies?: ContactReplyListRelationFilter
   }
 
   export type ContactMessageOrderByWithRelationInput = {
@@ -14572,11 +16162,21 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    status?: SortOrder
+    emailNotificationStatus?: SortOrder
+    gmailThreadId?: SortOrderInput | SortOrder
+    gmailNotificationId?: SortOrderInput | SortOrder
+    gmailRfcMessageId?: SortOrderInput | SortOrder
+    gmailSubject?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
+    replies?: ContactReplyOrderByRelationAggregateInput
   }
 
   export type ContactMessageWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    gmailThreadId?: string
+    gmailNotificationId?: string
     AND?: ContactMessageWhereInput | ContactMessageWhereInput[]
     OR?: ContactMessageWhereInput[]
     NOT?: ContactMessageWhereInput | ContactMessageWhereInput[]
@@ -14584,8 +16184,14 @@ export namespace Prisma {
     email?: StringFilter<"ContactMessage"> | string
     message?: StringFilter<"ContactMessage"> | string
     read?: BoolFilter<"ContactMessage"> | boolean
+    status?: EnumContactMessageStatusFilter<"ContactMessage"> | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFilter<"ContactMessage"> | $Enums.ContactNotificationStatus
+    gmailRfcMessageId?: StringNullableFilter<"ContactMessage"> | string | null
+    gmailSubject?: StringNullableFilter<"ContactMessage"> | string | null
     createdAt?: DateTimeFilter<"ContactMessage"> | Date | string
-  }, "id">
+    updatedAt?: DateTimeFilter<"ContactMessage"> | Date | string
+    replies?: ContactReplyListRelationFilter
+  }, "id" | "gmailThreadId" | "gmailNotificationId">
 
   export type ContactMessageOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14593,7 +16199,14 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    status?: SortOrder
+    emailNotificationStatus?: SortOrder
+    gmailThreadId?: SortOrderInput | SortOrder
+    gmailNotificationId?: SortOrderInput | SortOrder
+    gmailRfcMessageId?: SortOrderInput | SortOrder
+    gmailSubject?: SortOrderInput | SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ContactMessageCountOrderByAggregateInput
     _max?: ContactMessageMaxOrderByAggregateInput
     _min?: ContactMessageMinOrderByAggregateInput
@@ -14608,7 +16221,79 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"ContactMessage"> | string
     message?: StringWithAggregatesFilter<"ContactMessage"> | string
     read?: BoolWithAggregatesFilter<"ContactMessage"> | boolean
+    status?: EnumContactMessageStatusWithAggregatesFilter<"ContactMessage"> | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusWithAggregatesFilter<"ContactMessage"> | $Enums.ContactNotificationStatus
+    gmailThreadId?: StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
+    gmailNotificationId?: StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
+    gmailRfcMessageId?: StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
+    gmailSubject?: StringNullableWithAggregatesFilter<"ContactMessage"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ContactMessage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ContactMessage"> | Date | string
+  }
+
+  export type ContactReplyWhereInput = {
+    AND?: ContactReplyWhereInput | ContactReplyWhereInput[]
+    OR?: ContactReplyWhereInput[]
+    NOT?: ContactReplyWhereInput | ContactReplyWhereInput[]
+    id?: StringFilter<"ContactReply"> | string
+    contactMessageId?: StringFilter<"ContactReply"> | string
+    body?: StringFilter<"ContactReply"> | string
+    channel?: EnumContactReplyChannelFilter<"ContactReply"> | $Enums.ContactReplyChannel
+    gmailMessageId?: StringNullableFilter<"ContactReply"> | string | null
+    gmailRfcMessageId?: StringNullableFilter<"ContactReply"> | string | null
+    createdAt?: DateTimeFilter<"ContactReply"> | Date | string
+    contactMessage?: XOR<ContactMessageScalarRelationFilter, ContactMessageWhereInput>
+  }
+
+  export type ContactReplyOrderByWithRelationInput = {
+    id?: SortOrder
+    contactMessageId?: SortOrder
+    body?: SortOrder
+    channel?: SortOrder
+    gmailMessageId?: SortOrderInput | SortOrder
+    gmailRfcMessageId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    contactMessage?: ContactMessageOrderByWithRelationInput
+  }
+
+  export type ContactReplyWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    gmailMessageId?: string
+    AND?: ContactReplyWhereInput | ContactReplyWhereInput[]
+    OR?: ContactReplyWhereInput[]
+    NOT?: ContactReplyWhereInput | ContactReplyWhereInput[]
+    contactMessageId?: StringFilter<"ContactReply"> | string
+    body?: StringFilter<"ContactReply"> | string
+    channel?: EnumContactReplyChannelFilter<"ContactReply"> | $Enums.ContactReplyChannel
+    gmailRfcMessageId?: StringNullableFilter<"ContactReply"> | string | null
+    createdAt?: DateTimeFilter<"ContactReply"> | Date | string
+    contactMessage?: XOR<ContactMessageScalarRelationFilter, ContactMessageWhereInput>
+  }, "id" | "gmailMessageId">
+
+  export type ContactReplyOrderByWithAggregationInput = {
+    id?: SortOrder
+    contactMessageId?: SortOrder
+    body?: SortOrder
+    channel?: SortOrder
+    gmailMessageId?: SortOrderInput | SortOrder
+    gmailRfcMessageId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: ContactReplyCountOrderByAggregateInput
+    _max?: ContactReplyMaxOrderByAggregateInput
+    _min?: ContactReplyMinOrderByAggregateInput
+  }
+
+  export type ContactReplyScalarWhereWithAggregatesInput = {
+    AND?: ContactReplyScalarWhereWithAggregatesInput | ContactReplyScalarWhereWithAggregatesInput[]
+    OR?: ContactReplyScalarWhereWithAggregatesInput[]
+    NOT?: ContactReplyScalarWhereWithAggregatesInput | ContactReplyScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ContactReply"> | string
+    contactMessageId?: StringWithAggregatesFilter<"ContactReply"> | string
+    body?: StringWithAggregatesFilter<"ContactReply"> | string
+    channel?: EnumContactReplyChannelWithAggregatesFilter<"ContactReply"> | $Enums.ContactReplyChannel
+    gmailMessageId?: StringNullableWithAggregatesFilter<"ContactReply"> | string | null
+    gmailRfcMessageId?: StringNullableWithAggregatesFilter<"ContactReply"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ContactReply"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -14948,6 +16633,8 @@ export namespace Prisma {
     descriptionLongue: string
     image: string
     lien: string
+    typeProjet?: $Enums.ProjectType
+    typeApplication?: $Enums.ApplicationType
     technologies?: ProjectCreatetechnologiesInput | string[]
     drivePhotos?: ProjectCreatedrivePhotosInput | string[]
     featured?: boolean
@@ -14965,6 +16652,8 @@ export namespace Prisma {
     descriptionLongue: string
     image: string
     lien: string
+    typeProjet?: $Enums.ProjectType
+    typeApplication?: $Enums.ApplicationType
     technologies?: ProjectCreatetechnologiesInput | string[]
     drivePhotos?: ProjectCreatedrivePhotosInput | string[]
     featured?: boolean
@@ -14982,6 +16671,8 @@ export namespace Prisma {
     descriptionLongue?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
+    typeProjet?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeFieldUpdateOperationsInput | $Enums.ApplicationType
     technologies?: ProjectUpdatetechnologiesInput | string[]
     drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
@@ -14999,6 +16690,8 @@ export namespace Prisma {
     descriptionLongue?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
+    typeProjet?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeFieldUpdateOperationsInput | $Enums.ApplicationType
     technologies?: ProjectUpdatetechnologiesInput | string[]
     drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
@@ -15016,6 +16709,8 @@ export namespace Prisma {
     descriptionLongue: string
     image: string
     lien: string
+    typeProjet?: $Enums.ProjectType
+    typeApplication?: $Enums.ApplicationType
     technologies?: ProjectCreatetechnologiesInput | string[]
     drivePhotos?: ProjectCreatedrivePhotosInput | string[]
     featured?: boolean
@@ -15033,6 +16728,8 @@ export namespace Prisma {
     descriptionLongue?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
+    typeProjet?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeFieldUpdateOperationsInput | $Enums.ApplicationType
     technologies?: ProjectUpdatetechnologiesInput | string[]
     drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
@@ -15050,6 +16747,8 @@ export namespace Prisma {
     descriptionLongue?: StringFieldUpdateOperationsInput | string
     image?: StringFieldUpdateOperationsInput | string
     lien?: StringFieldUpdateOperationsInput | string
+    typeProjet?: EnumProjectTypeFieldUpdateOperationsInput | $Enums.ProjectType
+    typeApplication?: EnumApplicationTypeFieldUpdateOperationsInput | $Enums.ApplicationType
     technologies?: ProjectUpdatetechnologiesInput | string[]
     drivePhotos?: ProjectUpdatedrivePhotosInput | string[]
     featured?: BoolFieldUpdateOperationsInput | boolean
@@ -15365,7 +17064,15 @@ export namespace Prisma {
     email: string
     message: string
     read?: boolean
+    status?: $Enums.ContactMessageStatus
+    emailNotificationStatus?: $Enums.ContactNotificationStatus
+    gmailThreadId?: string | null
+    gmailNotificationId?: string | null
+    gmailRfcMessageId?: string | null
+    gmailSubject?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: ContactReplyCreateNestedManyWithoutContactMessageInput
   }
 
   export type ContactMessageUncheckedCreateInput = {
@@ -15374,7 +17081,15 @@ export namespace Prisma {
     email: string
     message: string
     read?: boolean
+    status?: $Enums.ContactMessageStatus
+    emailNotificationStatus?: $Enums.ContactNotificationStatus
+    gmailThreadId?: string | null
+    gmailNotificationId?: string | null
+    gmailRfcMessageId?: string | null
+    gmailSubject?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
+    replies?: ContactReplyUncheckedCreateNestedManyWithoutContactMessageInput
   }
 
   export type ContactMessageUpdateInput = {
@@ -15383,7 +17098,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumContactMessageStatusFieldUpdateOperationsInput | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFieldUpdateOperationsInput | $Enums.ContactNotificationStatus
+    gmailThreadId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailNotificationId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailSubject?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: ContactReplyUpdateManyWithoutContactMessageNestedInput
   }
 
   export type ContactMessageUncheckedUpdateInput = {
@@ -15392,7 +17115,15 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumContactMessageStatusFieldUpdateOperationsInput | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFieldUpdateOperationsInput | $Enums.ContactNotificationStatus
+    gmailThreadId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailNotificationId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailSubject?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    replies?: ContactReplyUncheckedUpdateManyWithoutContactMessageNestedInput
   }
 
   export type ContactMessageCreateManyInput = {
@@ -15401,7 +17132,14 @@ export namespace Prisma {
     email: string
     message: string
     read?: boolean
+    status?: $Enums.ContactMessageStatus
+    emailNotificationStatus?: $Enums.ContactNotificationStatus
+    gmailThreadId?: string | null
+    gmailNotificationId?: string | null
+    gmailRfcMessageId?: string | null
+    gmailSubject?: string | null
     createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ContactMessageUpdateManyMutationInput = {
@@ -15410,7 +17148,14 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumContactMessageStatusFieldUpdateOperationsInput | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFieldUpdateOperationsInput | $Enums.ContactNotificationStatus
+    gmailThreadId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailNotificationId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailSubject?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ContactMessageUncheckedUpdateManyInput = {
@@ -15419,6 +17164,82 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
     read?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumContactMessageStatusFieldUpdateOperationsInput | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFieldUpdateOperationsInput | $Enums.ContactNotificationStatus
+    gmailThreadId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailNotificationId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailSubject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactReplyCreateInput = {
+    id?: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId?: string | null
+    gmailRfcMessageId?: string | null
+    createdAt?: Date | string
+    contactMessage: ContactMessageCreateNestedOneWithoutRepliesInput
+  }
+
+  export type ContactReplyUncheckedCreateInput = {
+    id?: string
+    contactMessageId: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId?: string | null
+    gmailRfcMessageId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ContactReplyUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    contactMessage?: ContactMessageUpdateOneRequiredWithoutRepliesNestedInput
+  }
+
+  export type ContactReplyUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contactMessageId?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactReplyCreateManyInput = {
+    id?: string
+    contactMessageId: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId?: string | null
+    gmailRfcMessageId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ContactReplyUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactReplyUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    contactMessageId?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -15719,6 +17540,20 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type EnumProjectTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectType | EnumProjectTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectTypeFilter<$PrismaModel> | $Enums.ProjectType
+  }
+
+  export type EnumApplicationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApplicationType | EnumApplicationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApplicationTypeFilter<$PrismaModel> | $Enums.ApplicationType
+  }
+
   export type StringNullableListFilter<$PrismaModel = never> = {
     equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
     has?: string | StringFieldRefInput<$PrismaModel> | null
@@ -15747,6 +17582,8 @@ export namespace Prisma {
     descriptionLongue?: SortOrder
     image?: SortOrder
     lien?: SortOrder
+    typeProjet?: SortOrder
+    typeApplication?: SortOrder
     technologies?: SortOrder
     drivePhotos?: SortOrder
     featured?: SortOrder
@@ -15768,6 +17605,8 @@ export namespace Prisma {
     descriptionLongue?: SortOrder
     image?: SortOrder
     lien?: SortOrder
+    typeProjet?: SortOrder
+    typeApplication?: SortOrder
     featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -15783,6 +17622,8 @@ export namespace Prisma {
     descriptionLongue?: SortOrder
     image?: SortOrder
     lien?: SortOrder
+    typeProjet?: SortOrder
+    typeApplication?: SortOrder
     featured?: SortOrder
     order?: SortOrder
     createdAt?: SortOrder
@@ -15791,6 +17632,26 @@ export namespace Prisma {
 
   export type ProjectSumOrderByAggregateInput = {
     order?: SortOrder
+  }
+
+  export type EnumProjectTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectType | EnumProjectTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectTypeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectTypeFilter<$PrismaModel>
+    _max?: NestedEnumProjectTypeFilter<$PrismaModel>
+  }
+
+  export type EnumApplicationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApplicationType | EnumApplicationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApplicationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ApplicationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApplicationTypeFilter<$PrismaModel>
+    _max?: NestedEnumApplicationTypeFilter<$PrismaModel>
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -15980,13 +17841,44 @@ export namespace Prisma {
     order?: SortOrder
   }
 
+  export type EnumContactMessageStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactMessageStatus | EnumContactMessageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactMessageStatusFilter<$PrismaModel> | $Enums.ContactMessageStatus
+  }
+
+  export type EnumContactNotificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactNotificationStatus | EnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactNotificationStatusFilter<$PrismaModel> | $Enums.ContactNotificationStatus
+  }
+
+  export type ContactReplyListRelationFilter = {
+    every?: ContactReplyWhereInput
+    some?: ContactReplyWhereInput
+    none?: ContactReplyWhereInput
+  }
+
+  export type ContactReplyOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ContactMessageCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    status?: SortOrder
+    emailNotificationStatus?: SortOrder
+    gmailThreadId?: SortOrder
+    gmailNotificationId?: SortOrder
+    gmailRfcMessageId?: SortOrder
+    gmailSubject?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ContactMessageMaxOrderByAggregateInput = {
@@ -15995,7 +17887,14 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    status?: SortOrder
+    emailNotificationStatus?: SortOrder
+    gmailThreadId?: SortOrder
+    gmailNotificationId?: SortOrder
+    gmailRfcMessageId?: SortOrder
+    gmailSubject?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ContactMessageMinOrderByAggregateInput = {
@@ -16004,7 +17903,86 @@ export namespace Prisma {
     email?: SortOrder
     message?: SortOrder
     read?: SortOrder
+    status?: SortOrder
+    emailNotificationStatus?: SortOrder
+    gmailThreadId?: SortOrder
+    gmailNotificationId?: SortOrder
+    gmailRfcMessageId?: SortOrder
+    gmailSubject?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumContactMessageStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactMessageStatus | EnumContactMessageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactMessageStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContactMessageStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactMessageStatusFilter<$PrismaModel>
+    _max?: NestedEnumContactMessageStatusFilter<$PrismaModel>
+  }
+
+  export type EnumContactNotificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactNotificationStatus | EnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactNotificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContactNotificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactNotificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumContactNotificationStatusFilter<$PrismaModel>
+  }
+
+  export type EnumContactReplyChannelFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactReplyChannel | EnumContactReplyChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactReplyChannelFilter<$PrismaModel> | $Enums.ContactReplyChannel
+  }
+
+  export type ContactMessageScalarRelationFilter = {
+    is?: ContactMessageWhereInput
+    isNot?: ContactMessageWhereInput
+  }
+
+  export type ContactReplyCountOrderByAggregateInput = {
+    id?: SortOrder
+    contactMessageId?: SortOrder
+    body?: SortOrder
+    channel?: SortOrder
+    gmailMessageId?: SortOrder
+    gmailRfcMessageId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ContactReplyMaxOrderByAggregateInput = {
+    id?: SortOrder
+    contactMessageId?: SortOrder
+    body?: SortOrder
+    channel?: SortOrder
+    gmailMessageId?: SortOrder
+    gmailRfcMessageId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type ContactReplyMinOrderByAggregateInput = {
+    id?: SortOrder
+    contactMessageId?: SortOrder
+    body?: SortOrder
+    channel?: SortOrder
+    gmailMessageId?: SortOrder
+    gmailRfcMessageId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type EnumContactReplyChannelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactReplyChannel | EnumContactReplyChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactReplyChannelWithAggregatesFilter<$PrismaModel> | $Enums.ContactReplyChannel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactReplyChannelFilter<$PrismaModel>
+    _max?: NestedEnumContactReplyChannelFilter<$PrismaModel>
   }
 
   export type SessionCreateNestedManyWithoutUserInput = {
@@ -16147,6 +18125,14 @@ export namespace Prisma {
     set: string[]
   }
 
+  export type EnumProjectTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ProjectType
+  }
+
+  export type EnumApplicationTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ApplicationType
+  }
+
   export type ProjectUpdatetechnologiesInput = {
     set?: string[]
     push?: string | string[]
@@ -16163,6 +18149,74 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ContactReplyCreateNestedManyWithoutContactMessageInput = {
+    create?: XOR<ContactReplyCreateWithoutContactMessageInput, ContactReplyUncheckedCreateWithoutContactMessageInput> | ContactReplyCreateWithoutContactMessageInput[] | ContactReplyUncheckedCreateWithoutContactMessageInput[]
+    connectOrCreate?: ContactReplyCreateOrConnectWithoutContactMessageInput | ContactReplyCreateOrConnectWithoutContactMessageInput[]
+    createMany?: ContactReplyCreateManyContactMessageInputEnvelope
+    connect?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+  }
+
+  export type ContactReplyUncheckedCreateNestedManyWithoutContactMessageInput = {
+    create?: XOR<ContactReplyCreateWithoutContactMessageInput, ContactReplyUncheckedCreateWithoutContactMessageInput> | ContactReplyCreateWithoutContactMessageInput[] | ContactReplyUncheckedCreateWithoutContactMessageInput[]
+    connectOrCreate?: ContactReplyCreateOrConnectWithoutContactMessageInput | ContactReplyCreateOrConnectWithoutContactMessageInput[]
+    createMany?: ContactReplyCreateManyContactMessageInputEnvelope
+    connect?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+  }
+
+  export type EnumContactMessageStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ContactMessageStatus
+  }
+
+  export type EnumContactNotificationStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ContactNotificationStatus
+  }
+
+  export type ContactReplyUpdateManyWithoutContactMessageNestedInput = {
+    create?: XOR<ContactReplyCreateWithoutContactMessageInput, ContactReplyUncheckedCreateWithoutContactMessageInput> | ContactReplyCreateWithoutContactMessageInput[] | ContactReplyUncheckedCreateWithoutContactMessageInput[]
+    connectOrCreate?: ContactReplyCreateOrConnectWithoutContactMessageInput | ContactReplyCreateOrConnectWithoutContactMessageInput[]
+    upsert?: ContactReplyUpsertWithWhereUniqueWithoutContactMessageInput | ContactReplyUpsertWithWhereUniqueWithoutContactMessageInput[]
+    createMany?: ContactReplyCreateManyContactMessageInputEnvelope
+    set?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    disconnect?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    delete?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    connect?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    update?: ContactReplyUpdateWithWhereUniqueWithoutContactMessageInput | ContactReplyUpdateWithWhereUniqueWithoutContactMessageInput[]
+    updateMany?: ContactReplyUpdateManyWithWhereWithoutContactMessageInput | ContactReplyUpdateManyWithWhereWithoutContactMessageInput[]
+    deleteMany?: ContactReplyScalarWhereInput | ContactReplyScalarWhereInput[]
+  }
+
+  export type ContactReplyUncheckedUpdateManyWithoutContactMessageNestedInput = {
+    create?: XOR<ContactReplyCreateWithoutContactMessageInput, ContactReplyUncheckedCreateWithoutContactMessageInput> | ContactReplyCreateWithoutContactMessageInput[] | ContactReplyUncheckedCreateWithoutContactMessageInput[]
+    connectOrCreate?: ContactReplyCreateOrConnectWithoutContactMessageInput | ContactReplyCreateOrConnectWithoutContactMessageInput[]
+    upsert?: ContactReplyUpsertWithWhereUniqueWithoutContactMessageInput | ContactReplyUpsertWithWhereUniqueWithoutContactMessageInput[]
+    createMany?: ContactReplyCreateManyContactMessageInputEnvelope
+    set?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    disconnect?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    delete?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    connect?: ContactReplyWhereUniqueInput | ContactReplyWhereUniqueInput[]
+    update?: ContactReplyUpdateWithWhereUniqueWithoutContactMessageInput | ContactReplyUpdateWithWhereUniqueWithoutContactMessageInput[]
+    updateMany?: ContactReplyUpdateManyWithWhereWithoutContactMessageInput | ContactReplyUpdateManyWithWhereWithoutContactMessageInput[]
+    deleteMany?: ContactReplyScalarWhereInput | ContactReplyScalarWhereInput[]
+  }
+
+  export type ContactMessageCreateNestedOneWithoutRepliesInput = {
+    create?: XOR<ContactMessageCreateWithoutRepliesInput, ContactMessageUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: ContactMessageCreateOrConnectWithoutRepliesInput
+    connect?: ContactMessageWhereUniqueInput
+  }
+
+  export type EnumContactReplyChannelFieldUpdateOperationsInput = {
+    set?: $Enums.ContactReplyChannel
+  }
+
+  export type ContactMessageUpdateOneRequiredWithoutRepliesNestedInput = {
+    create?: XOR<ContactMessageCreateWithoutRepliesInput, ContactMessageUncheckedCreateWithoutRepliesInput>
+    connectOrCreate?: ContactMessageCreateOrConnectWithoutRepliesInput
+    upsert?: ContactMessageUpsertWithoutRepliesInput
+    connect?: ContactMessageWhereUniqueInput
+    update?: XOR<XOR<ContactMessageUpdateToOneWithWhereWithoutRepliesInput, ContactMessageUpdateWithoutRepliesInput>, ContactMessageUncheckedUpdateWithoutRepliesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -16312,6 +18366,40 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumProjectTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectType | EnumProjectTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectTypeFilter<$PrismaModel> | $Enums.ProjectType
+  }
+
+  export type NestedEnumApplicationTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApplicationType | EnumApplicationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApplicationTypeFilter<$PrismaModel> | $Enums.ApplicationType
+  }
+
+  export type NestedEnumProjectTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProjectType | EnumProjectTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProjectType[] | ListEnumProjectTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumProjectTypeWithAggregatesFilter<$PrismaModel> | $Enums.ProjectType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProjectTypeFilter<$PrismaModel>
+    _max?: NestedEnumProjectTypeFilter<$PrismaModel>
+  }
+
+  export type NestedEnumApplicationTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ApplicationType | EnumApplicationTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ApplicationType[] | ListEnumApplicationTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumApplicationTypeWithAggregatesFilter<$PrismaModel> | $Enums.ApplicationType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumApplicationTypeFilter<$PrismaModel>
+    _max?: NestedEnumApplicationTypeFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -16337,6 +18425,57 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumContactMessageStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactMessageStatus | EnumContactMessageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactMessageStatusFilter<$PrismaModel> | $Enums.ContactMessageStatus
+  }
+
+  export type NestedEnumContactNotificationStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactNotificationStatus | EnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactNotificationStatusFilter<$PrismaModel> | $Enums.ContactNotificationStatus
+  }
+
+  export type NestedEnumContactMessageStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactMessageStatus | EnumContactMessageStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactMessageStatus[] | ListEnumContactMessageStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactMessageStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContactMessageStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactMessageStatusFilter<$PrismaModel>
+    _max?: NestedEnumContactMessageStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumContactNotificationStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactNotificationStatus | EnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactNotificationStatus[] | ListEnumContactNotificationStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactNotificationStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContactNotificationStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactNotificationStatusFilter<$PrismaModel>
+    _max?: NestedEnumContactNotificationStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumContactReplyChannelFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactReplyChannel | EnumContactReplyChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactReplyChannelFilter<$PrismaModel> | $Enums.ContactReplyChannel
+  }
+
+  export type NestedEnumContactReplyChannelWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContactReplyChannel | EnumContactReplyChannelFieldRefInput<$PrismaModel>
+    in?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContactReplyChannel[] | ListEnumContactReplyChannelFieldRefInput<$PrismaModel>
+    not?: NestedEnumContactReplyChannelWithAggregatesFilter<$PrismaModel> | $Enums.ContactReplyChannel
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContactReplyChannelFilter<$PrismaModel>
+    _max?: NestedEnumContactReplyChannelFilter<$PrismaModel>
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -16594,6 +18733,143 @@ export namespace Prisma {
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
   }
 
+  export type ContactReplyCreateWithoutContactMessageInput = {
+    id?: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId?: string | null
+    gmailRfcMessageId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ContactReplyUncheckedCreateWithoutContactMessageInput = {
+    id?: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId?: string | null
+    gmailRfcMessageId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ContactReplyCreateOrConnectWithoutContactMessageInput = {
+    where: ContactReplyWhereUniqueInput
+    create: XOR<ContactReplyCreateWithoutContactMessageInput, ContactReplyUncheckedCreateWithoutContactMessageInput>
+  }
+
+  export type ContactReplyCreateManyContactMessageInputEnvelope = {
+    data: ContactReplyCreateManyContactMessageInput | ContactReplyCreateManyContactMessageInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ContactReplyUpsertWithWhereUniqueWithoutContactMessageInput = {
+    where: ContactReplyWhereUniqueInput
+    update: XOR<ContactReplyUpdateWithoutContactMessageInput, ContactReplyUncheckedUpdateWithoutContactMessageInput>
+    create: XOR<ContactReplyCreateWithoutContactMessageInput, ContactReplyUncheckedCreateWithoutContactMessageInput>
+  }
+
+  export type ContactReplyUpdateWithWhereUniqueWithoutContactMessageInput = {
+    where: ContactReplyWhereUniqueInput
+    data: XOR<ContactReplyUpdateWithoutContactMessageInput, ContactReplyUncheckedUpdateWithoutContactMessageInput>
+  }
+
+  export type ContactReplyUpdateManyWithWhereWithoutContactMessageInput = {
+    where: ContactReplyScalarWhereInput
+    data: XOR<ContactReplyUpdateManyMutationInput, ContactReplyUncheckedUpdateManyWithoutContactMessageInput>
+  }
+
+  export type ContactReplyScalarWhereInput = {
+    AND?: ContactReplyScalarWhereInput | ContactReplyScalarWhereInput[]
+    OR?: ContactReplyScalarWhereInput[]
+    NOT?: ContactReplyScalarWhereInput | ContactReplyScalarWhereInput[]
+    id?: StringFilter<"ContactReply"> | string
+    contactMessageId?: StringFilter<"ContactReply"> | string
+    body?: StringFilter<"ContactReply"> | string
+    channel?: EnumContactReplyChannelFilter<"ContactReply"> | $Enums.ContactReplyChannel
+    gmailMessageId?: StringNullableFilter<"ContactReply"> | string | null
+    gmailRfcMessageId?: StringNullableFilter<"ContactReply"> | string | null
+    createdAt?: DateTimeFilter<"ContactReply"> | Date | string
+  }
+
+  export type ContactMessageCreateWithoutRepliesInput = {
+    id?: string
+    name: string
+    email: string
+    message: string
+    read?: boolean
+    status?: $Enums.ContactMessageStatus
+    emailNotificationStatus?: $Enums.ContactNotificationStatus
+    gmailThreadId?: string | null
+    gmailNotificationId?: string | null
+    gmailRfcMessageId?: string | null
+    gmailSubject?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContactMessageUncheckedCreateWithoutRepliesInput = {
+    id?: string
+    name: string
+    email: string
+    message: string
+    read?: boolean
+    status?: $Enums.ContactMessageStatus
+    emailNotificationStatus?: $Enums.ContactNotificationStatus
+    gmailThreadId?: string | null
+    gmailNotificationId?: string | null
+    gmailRfcMessageId?: string | null
+    gmailSubject?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ContactMessageCreateOrConnectWithoutRepliesInput = {
+    where: ContactMessageWhereUniqueInput
+    create: XOR<ContactMessageCreateWithoutRepliesInput, ContactMessageUncheckedCreateWithoutRepliesInput>
+  }
+
+  export type ContactMessageUpsertWithoutRepliesInput = {
+    update: XOR<ContactMessageUpdateWithoutRepliesInput, ContactMessageUncheckedUpdateWithoutRepliesInput>
+    create: XOR<ContactMessageCreateWithoutRepliesInput, ContactMessageUncheckedCreateWithoutRepliesInput>
+    where?: ContactMessageWhereInput
+  }
+
+  export type ContactMessageUpdateToOneWithWhereWithoutRepliesInput = {
+    where?: ContactMessageWhereInput
+    data: XOR<ContactMessageUpdateWithoutRepliesInput, ContactMessageUncheckedUpdateWithoutRepliesInput>
+  }
+
+  export type ContactMessageUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumContactMessageStatusFieldUpdateOperationsInput | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFieldUpdateOperationsInput | $Enums.ContactNotificationStatus
+    gmailThreadId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailNotificationId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailSubject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactMessageUncheckedUpdateWithoutRepliesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    message?: StringFieldUpdateOperationsInput | string
+    read?: BoolFieldUpdateOperationsInput | boolean
+    status?: EnumContactMessageStatusFieldUpdateOperationsInput | $Enums.ContactMessageStatus
+    emailNotificationStatus?: EnumContactNotificationStatusFieldUpdateOperationsInput | $Enums.ContactNotificationStatus
+    gmailThreadId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailNotificationId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailSubject?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SessionCreateManyUserInput = {
     id: string
     expiresAt: Date | string
@@ -16692,6 +18968,42 @@ export namespace Prisma {
     password?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactReplyCreateManyContactMessageInput = {
+    id?: string
+    body: string
+    channel: $Enums.ContactReplyChannel
+    gmailMessageId?: string | null
+    gmailRfcMessageId?: string | null
+    createdAt?: Date | string
+  }
+
+  export type ContactReplyUpdateWithoutContactMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactReplyUncheckedUpdateWithoutContactMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ContactReplyUncheckedUpdateManyWithoutContactMessageInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    body?: StringFieldUpdateOperationsInput | string
+    channel?: EnumContactReplyChannelFieldUpdateOperationsInput | $Enums.ContactReplyChannel
+    gmailMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    gmailRfcMessageId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

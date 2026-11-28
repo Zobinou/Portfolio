@@ -175,6 +175,8 @@ exports.Prisma.ProjectScalarFieldEnum = {
   descriptionLongue: 'descriptionLongue',
   image: 'image',
   lien: 'lien',
+  typeProjet: 'typeProjet',
+  typeApplication: 'typeApplication',
   technologies: 'technologies',
   drivePhotos: 'drivePhotos',
   featured: 'featured',
@@ -232,6 +234,23 @@ exports.Prisma.ContactMessageScalarFieldEnum = {
   email: 'email',
   message: 'message',
   read: 'read',
+  status: 'status',
+  emailNotificationStatus: 'emailNotificationStatus',
+  gmailThreadId: 'gmailThreadId',
+  gmailNotificationId: 'gmailNotificationId',
+  gmailRfcMessageId: 'gmailRfcMessageId',
+  gmailSubject: 'gmailSubject',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ContactReplyScalarFieldEnum = {
+  id: 'id',
+  contactMessageId: 'contactMessageId',
+  body: 'body',
+  channel: 'channel',
+  gmailMessageId: 'gmailMessageId',
+  gmailRfcMessageId: 'gmailRfcMessageId',
   createdAt: 'createdAt'
 };
 
@@ -249,7 +268,42 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.ProjectType = exports.$Enums.ProjectType = {
+  PERSONNEL: 'PERSONNEL',
+  SCOLAIRE: 'SCOLAIRE',
+  ENTREPRISE: 'ENTREPRISE',
+  OPEN_SOURCE: 'OPEN_SOURCE',
+  INSTITUTIONNEL: 'INSTITUTIONNEL'
+};
 
+exports.ApplicationType = exports.$Enums.ApplicationType = {
+  WEB: 'WEB',
+  MOBILE: 'MOBILE',
+  DESKTOP: 'DESKTOP',
+  API: 'API',
+  LIBRARY: 'LIBRARY',
+  GAME: 'GAME',
+  ERP: 'ERP',
+  DATA: 'DATA',
+  OTHER: 'OTHER'
+};
+
+exports.ContactMessageStatus = exports.$Enums.ContactMessageStatus = {
+  NEW: 'NEW',
+  IN_PROGRESS: 'IN_PROGRESS',
+  REPLIED: 'REPLIED'
+};
+
+exports.ContactNotificationStatus = exports.$Enums.ContactNotificationStatus = {
+  PENDING: 'PENDING',
+  SENT: 'SENT',
+  FAILED: 'FAILED'
+};
+
+exports.ContactReplyChannel = exports.$Enums.ContactReplyChannel = {
+  DASHBOARD: 'DASHBOARD',
+  GMAIL: 'GMAIL'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -262,7 +316,8 @@ exports.Prisma.ModelName = {
   Education: 'Education',
   Experience: 'Experience',
   Testimonial: 'Testimonial',
-  ContactMessage: 'ContactMessage'
+  ContactMessage: 'ContactMessage',
+  ContactReply: 'ContactReply'
 };
 
 /**

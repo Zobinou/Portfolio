@@ -1,34 +1,157 @@
-import { NextResponse } from "next/server"
-import { Resend } from "resend"
-import { prisma } from "@/lib/prisma"
-import { contactSchema } from "@/lib/validations/contact"
-
-const resend = new Resend(process.env.RESEND_API_KEY)
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { contactSchema } from "@/lib/validations/contact";
+import {
+    isGmailConfigured,
+    sendContactNotification,
+} from "@/lib/gmail";
 
 export async function POST(req: Request) {
-    const json = await req.json()
-    const parsed = contactSchema.safeParse(json)
-    if (!parsed.success)
-        return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 })
+    try {
+        const body: unknown = await req.json();
 
-    if (parsed.data.company) return NextResponse.json({ success: true })
+        if (
+            !body ||
+            typeof body !== "object" ||
+            Array.isArray(body)
+        ) {
+            return NextResponse.json(
+                { success: false, message: "Données invalides." },
+                { status: 400 },
+            );
+        }
 
-    const msg = await prisma.contactMessage.create({
-        data: {
-            name: parsed.data.name,
-            email: parsed.data.email,
-            message: parsed.data.message,
-        },
-    })
+        const payload = body as Record<string, unknown>;
 
-    const { error } = await resend.emails.send({
-        from: "Portfolio Contact <onboarding@resend.dev>",
-        to: [process.env.CONTACT_EMAIL!],
-        replyTo: parsed.data.email,
-        subject: `Nouveau message de ${parsed.data.name}`,
-        html: `<h2>Nouveau message</h2><p><b>De :</b> ${parsed.data.name} &lt;${parsed.data.email}&gt;</p><p>${parsed.data.message}</p>`,
-    })
-    if (error) return NextResponse.json({ error: "Email failed" }, { status: 500 })
+        if (
+            typeof payload.company === "string" &&
+            payload.company.trim() !== ""
+        ) {
+            return NextResponse.json({
+                success: true,
+                message: "Merci pour votre message.",
+            });
+        }
 
-    return NextResponse.json({ success: true, id: msg.id })
+        const parsed = contactSchema.safeParse(payload);
+
+        if (!parsed.success) {
+            return NextResponse.json(
+                {
+                    success: false,
+                    error: parsed.error.flatten(),
+                    message: "Veuillez vérifier les champs du formulaire.",
+                },
+                { status: 400 },
+            );
+        }
+
+        const { name, email, message } = parsed.data;
+
+        const savedMessage = await prisma.contactMessage.create({
+            data: {
+                name,
+                email,
+                message,
+                status: "NEW",
+                read: false,
+                emailNotificationStatus: "PENDING",
+            },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                message: true,
+                createdAt: true,
+            },
+        });
+
+        if (!isGmailConfigured()) {
+            await prisma.contactMessage.update({
+                where: {
+                    id: savedMessage.id,
+                },
+                data: {
+                    emailNotificationStatus: "FAILED",
+                },
+            });
+
+            return NextResponse.json(
+                {
+                    success: true,
+                    id: savedMessage.id,
+                    notificationSent: false,
+                    message:
+                        "Votre message a bien été enregistré. Il est disponible dans notre boîte de réception.",
+                },
+                { status: 201 },
+            );
+        }
+
+        try {
+            const notification = await sendContactNotification(
+                savedMessage,
+            );
+
+            await prisma.contactMessage.update({
+                where: {
+                    id: savedMessage.id,
+                },
+                data: {
+                    emailNotificationStatus: "SENT",
+                    gmailThreadId: notification.threadId,
+                    gmailNotificationId: notification.messageId,
+                    gmailRfcMessageId: notification.rfcMessageId,
+                    gmailSubject: notification.subject,
+                },
+            });
+
+            return NextResponse.json(
+                {
+                    success: true,
+                    id: savedMessage.id,
+                    notificationSent: true,
+                    message:
+                        "Votre message a bien été reçu. Merci pour votre prise de contact !",
+                },
+                { status: 201 },
+            );
+        } catch (emailError) {
+            console.error(
+                "[Contact] Notification Gmail impossible :",
+                emailError,
+            );
+
+            await prisma.contactMessage.update({
+                where: {
+                    id: savedMessage.id,
+                },
+                data: {
+                    emailNotificationStatus: "FAILED",
+                },
+            });
+
+            return NextResponse.json(
+                {
+                    success: true,
+                    id: savedMessage.id,
+                    notificationSent: false,
+                    message:
+                        "Votre message a bien été enregistré. Vous recevrez une réponse dès que possible.",
+                },
+                { status: 201 },
+            );
+        }
+    } catch (error) {
+        console.error("[Contact API] Erreur :", error);
+
+        return NextResponse.json(
+            {
+                success: false,
+                message:
+                    "Impossible d'enregistrer votre message pour le moment. Veuillez réessayer.",
+            },
+            { status: 500 },
+        );
+    }
 }
