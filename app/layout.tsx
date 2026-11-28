@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/layout/ThemeProvider";
 import LenisProvider from "@/components/animations/LenisProvider";
 import ConditionalShell from "@/components/layout/ConditionalShell";
 import "@/style/globals.css";
+import ToastProvider from "@/components/providers/ToastProvider";
 
 export const instant = false;
 
@@ -73,6 +74,7 @@ export default async function RootLayout({
           <LenisProvider>
             <ConditionalShell>
               {children}
+              <ToastProvider />
             </ConditionalShell>
           </LenisProvider>
         </ThemeProvider>

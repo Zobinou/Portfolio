@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import {
+    useForm,
+    useWatch,
+} from "react-hook-form";
+import type { SubmitErrorHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import {
     Send,
     LoaderCircle,
-    CheckCircle2,
     AlertCircle,
     AlertTriangle,
     User,
@@ -26,10 +30,7 @@ const MIN_MESSAGE_LENGTH = 10;
 const MAX_MESSAGE_LENGTH = 2000;
 
 export default function ContactForm() {
-    const [serverState, setServerState] = useState<{
-        success?: boolean;
-        message?: string;
-    }>({});
+    const [sending, setSending] = useState(false);
 
     const {
         control,
@@ -42,6 +43,7 @@ export default function ContactForm() {
         },
     } = useForm<ContactFormValues>({
         resolver: zodResolver(contactSchema),
+
         defaultValues: {
             name: "",
             email: "",
@@ -50,7 +52,12 @@ export default function ContactForm() {
         },
     });
 
-    const messageValue = useWatch({ control, name: "message" }) ?? "";
+    const messageValue =
+        useWatch({
+            control,
+            name: "message",
+        }) ?? "";
+
     const messageLength = messageValue.trim().length;
 
     const isMessageIncomplete =
@@ -68,8 +75,45 @@ export default function ContactForm() {
     const labelClass =
         "mb-2.5 block text-sm font-semibold text-text-primary";
 
+    const onInvalid: SubmitErrorHandler<ContactFormValues> = (
+        formErrors,
+    ) => {
+        const messageError = formErrors.message?.message;
+
+        if (messageError) {
+            toast.warning("Message incomplet", {
+                description: String(messageError),
+                duration: 4500,
+            });
+
+            return;
+        }
+
+        const firstError =
+            formErrors.name?.message ??
+            formErrors.email?.message ??
+            formErrors.company?.message;
+
+        toast.error("Vérifiez votre formulaire", {
+            description: firstError
+                ? String(firstError)
+                : "Certains champs obligatoires sont manquants ou invalides.",
+            duration: 4500,
+        });
+    };
+
     const onSubmit = async (data: ContactFormValues) => {
-        setServerState({});
+        if (sending) return;
+
+        setSending(true);
+
+        const toastId = toast.loading(
+            "Envoi de votre message...",
+            {
+                description:
+                    "Enregistrement dans notre boîte de réception.",
+            },
+        );
 
         try {
             const response = await fetch("/api/contact", {
@@ -80,41 +124,48 @@ export default function ContactForm() {
                 body: JSON.stringify(data),
             });
 
-            const result = await response.json();
+            const result = await response.json().catch(() => null);
 
-            if (!response.ok || !result.success) {
+            if (!response.ok || !result?.success) {
                 throw new Error(
-                    result.message ??
+                    result?.message ??
                     "Impossible d'envoyer votre message.",
                 );
             }
 
-            setServerState({
-                success: true,
-                message:
-                    result.message ??
-                    "Votre message a bien été reçu.",
+            const successMessage =
+                result.message ??
+                "Votre message a bien été reçu.";
+
+            toast.success("Message reçu avec succès !", {
+                id: toastId,
+                description: successMessage,
+                duration: 5500,
             });
 
             reset();
         } catch (error) {
-            setServerState({
-                success: false,
-                message:
-                    error instanceof Error
-                        ? error.message
-                        : "Impossible d'envoyer votre message pour le moment. Veuillez réessayer.",
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "Une erreur inattendue est survenue.";
+
+            toast.error("Échec de l'envoi", {
+                id: toastId,
+                description: errorMessage,
+                duration: 6000,
             });
+        } finally {
+            setSending(false);
         }
     };
 
     return (
         <form
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={handleSubmit(onSubmit, onInvalid)}
             className="relative space-y-5"
             noValidate
         >
-            {/* Honeypot anti-bot */}
             <div
                 aria-hidden="true"
                 className="pointer-events-none absolute left-[-10000px] top-auto h-px w-px overflow-hidden"
@@ -132,9 +183,11 @@ export default function ContactForm() {
                 />
             </div>
 
-            {/* Nom */}
             <div>
-                <label htmlFor="name" className={labelClass}>
+                <label
+                    htmlFor="name"
+                    className={labelClass}
+                >
                     <span className="inline-flex items-center gap-2">
                         <User className="h-4 w-4 text-primary" />
                         Nom complet
@@ -149,7 +202,9 @@ export default function ContactForm() {
                     placeholder="Ex. : Jack Sparrow"
                     aria-invalid={!!errors.name}
                     aria-describedby={
-                        errors.name ? "name-error" : undefined
+                        errors.name
+                            ? "name-error"
+                            : undefined
                     }
                     {...register("name")}
                     className={`${fieldClass} ${errors.name
@@ -170,9 +225,11 @@ export default function ContactForm() {
                 )}
             </div>
 
-            {/* Email */}
             <div>
-                <label htmlFor="email" className={labelClass}>
+                <label
+                    htmlFor="email"
+                    className={labelClass}
+                >
                     <span className="inline-flex items-center gap-2">
                         <Mail className="h-4 w-4 text-primary" />
                         Adresse email
@@ -186,7 +243,9 @@ export default function ContactForm() {
                     placeholder="vous@exemple.com"
                     aria-invalid={!!errors.email}
                     aria-describedby={
-                        errors.email ? "email-error" : undefined
+                        errors.email
+                            ? "email-error"
+                            : undefined
                     }
                     {...register("email")}
                     className={`${fieldClass} ${errors.email
@@ -207,9 +266,11 @@ export default function ContactForm() {
                 )}
             </div>
 
-            {/* Message */}
             <div>
-                <label htmlFor="message" className={labelClass}>
+                <label
+                    htmlFor="message"
+                    className={labelClass}
+                >
                     <span className="inline-flex items-center gap-2">
                         <MessageSquare className="h-4 w-4 text-primary" />
                         Votre message
@@ -238,7 +299,6 @@ export default function ContactForm() {
                         }`}
                 />
 
-                {/* Warning : message incomplet */}
                 {isMessageIncomplete && (
                     <div
                         id="message-warning"
@@ -264,7 +324,6 @@ export default function ContactForm() {
                     </div>
                 )}
 
-                {/* Erreur de validation */}
                 {errors.message && (
                     <p
                         id="message-error"
@@ -276,7 +335,6 @@ export default function ContactForm() {
                     </p>
                 )}
 
-                {/* Compteur de caractères */}
                 <div
                     id="message-counter"
                     className="mt-2 flex items-center justify-between gap-3 text-[11px]"
@@ -298,14 +356,13 @@ export default function ContactForm() {
                 </div>
             </div>
 
-            {/* Bouton d'envoi */}
             <Button
                 type="submit"
                 size="lg"
-                disabled={isSubmitting}
+                disabled={isSubmitting || sending}
                 className="group h-13 w-full gap-3 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-primary/30 disabled:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
             >
-                {isSubmitting ? (
+                {isSubmitting || sending ? (
                     <>
                         <LoaderCircle className="h-4 w-4 animate-spin" />
                         Enregistrement en cours...
@@ -317,47 +374,6 @@ export default function ContactForm() {
                     </>
                 )}
             </Button>
-
-            {/* Retour serveur */}
-            <div aria-live="polite" aria-atomic="true">
-                {serverState.success === true && (
-                    <div
-                        role="status"
-                        className="flex items-start gap-3 rounded-2xl border border-green-500/30 bg-green-500/10 p-4 text-sm text-green-600 dark:text-green-400"
-                    >
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" />
-
-                        <div>
-                            <p className="font-bold">
-                                Message reçu avec succès !
-                            </p>
-
-                            <p className="mt-1 leading-relaxed">
-                                {serverState.message}
-                            </p>
-                        </div>
-                    </div>
-                )}
-
-                {serverState.success === false && (
-                    <div
-                        role="alert"
-                        className="flex items-start gap-3 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-400"
-                    >
-                        <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
-
-                        <div>
-                            <p className="font-bold">
-                                Échec de l&apos;envoi
-                            </p>
-
-                            <p className="mt-1 leading-relaxed">
-                                {serverState.message}
-                            </p>
-                        </div>
-                    </div>
-                )}
-            </div>
 
             <p className="text-center text-[11px] leading-relaxed text-text-secondary/70">
                 Votre message sera d&apos;abord enregistré dans notre
